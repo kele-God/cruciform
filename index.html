@@ -1,0 +1,3431 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cruciform Church — Word-Centered, Cross-Focused</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES — THEME ENGINE
+    ============================================================ */
+    :root {
+      --crimson-deep:   #6B0000;
+      --crimson-mid:    #8B0000;
+      --crimson-bright: #A50000;
+      --crimson-glow:   #C0392B;
+      --crimson-soft:   #D9534F;
+      --gold:           #C9A84C;
+      --gold-light:     #E6C96A;
+      --gold-pale:      #F5E6C8;
+
+      --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary:    #0D0303;
+      --bg-secondary:  #150505;
+      --bg-card:       #1A0808;
+      --bg-overlay:    rgba(13,3,3,0.96);
+      --bg-nav:        rgba(13,3,3,0.97);
+      --text-primary:  #F5EDE8;
+      --text-secondary:#C8B8B0;
+      --text-muted:    #8A7070;
+      --border:        rgba(139,0,0,0.3);
+      --border-hover:  rgba(201,168,76,0.5);
+      --shadow:        0 4px 40px rgba(139,0,0,0.25);
+      --hero-overlay:  linear-gradient(180deg, rgba(13,3,3,0.55) 0%, rgba(13,3,3,0.85) 70%, rgba(13,3,3,1) 100%);
+    }
+
+    [data-theme="light"] {
+      --bg-primary:    #FAF5F0;
+      --bg-secondary:  #F2E8E0;
+      --bg-card:       #FFF8F5;
+      --bg-overlay:    rgba(250,245,240,0.97);
+      --bg-nav:        rgba(250,245,240,0.97);
+      --text-primary:  #1A0505;
+      --text-secondary:#4A2020;
+      --text-muted:    #8A6060;
+      --border:        rgba(139,0,0,0.2);
+      --border-hover:  rgba(139,0,0,0.6);
+      --shadow:        0 4px 40px rgba(139,0,0,0.12);
+      --hero-overlay:  linear-gradient(180deg, rgba(250,245,240,0.35) 0%, rgba(250,245,240,0.7) 70%, rgba(250,245,240,1) 100%);
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      transition: background var(--transition), color var(--transition);
+      overflow-x: hidden;
+    }
+    a { color: var(--crimson-soft); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--gold); }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--crimson-mid); border-radius: 3px; }
+
+    /* ============================================================
+       UTILITY CLASSES
+    ============================================================ */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .container--wide { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
+    .section { padding: 5rem 0; }
+    .section--sm { padding: 3rem 0; }
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+    }
+    .section-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.75;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .btn--primary {
+      background: var(--crimson-mid);
+      color: #fff;
+      border: 1px solid var(--crimson-mid);
+    }
+    .btn--primary:hover { background: var(--crimson-bright); color: #fff; border-color: var(--crimson-bright); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,0,0,0.4); }
+    .btn--outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-hover);
+    }
+    .btn--outline:hover { background: var(--crimson-mid); color: #fff; border-color: var(--crimson-mid); }
+    .btn--gold {
+      background: var(--gold);
+      color: #1A0505;
+      border: 1px solid var(--gold);
+    }
+    .btn--gold:hover { background: var(--gold-light); color: #1A0505; border-color: var(--gold-light); }
+    .divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--crimson-mid), var(--gold));
+      margin: 1.5rem 0;
+    }
+    .divider--center { margin-left: auto; margin-right: auto; }
+    .text-center { text-align: center; }
+    .text-gold { color: var(--gold); }
+    .cross-icon { display: inline-block; font-size: 1.1em; line-height: 1; }
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: 1px solid var(--crimson-mid);
+      color: var(--crimson-soft);
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       SKIP LINK
+    ============================================================ */
+    .skip-link {
+      position: fixed; top: -50px; left: 1rem; z-index: 9999;
+      background: var(--crimson-mid); color: #fff;
+      padding: 0.5rem 1rem; border-radius: 2px;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ============================================================
+       TOP BAR
+    ============================================================ */
+    .topbar {
+      background: var(--crimson-deep);
+      color: rgba(255,255,255,0.75);
+      font-size: 0.8rem;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.06em;
+      padding: 0.45rem 0;
+      transition: background var(--transition);
+    }
+    .topbar__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.5rem;
+    }
+    .topbar a { color: rgba(255,255,255,0.75); }
+    .topbar a:hover { color: var(--gold-light); }
+    .topbar__links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      transition: all var(--transition);
+    }
+    .navbar.scrolled {
+      top: 0;
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .navbar__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.5rem;
+      max-width: 1400px; margin: 0 auto;
+    }
+    .navbar__logo {
+      display: flex; align-items: center; gap: 0.85rem;
+      font-family: 'Cinzel', serif;
+      text-decoration: none;
+    }
+    .navbar__logo-mark {
+      width: 42px; height: 42px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .navbar__logo-mark svg { width: 100%; height: 100%; }
+    .navbar__logo-text { line-height: 1.2; }
+    .navbar__logo-name {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.08em;
+    }
+    .navbar__logo-tagline {
+      display: block;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .navbar__menu {
+      display: flex; align-items: center; gap: 0.25rem;
+    }
+    .nav-item { position: relative; }
+    .nav-link {
+      display: flex; align-items: center; gap: 0.3rem;
+      padding: 0.5rem 0.9rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      border-radius: 2px;
+      transition: all var(--transition);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--crimson-soft); }
+    .nav-link svg { width: 10px; height: 10px; transition: transform var(--transition); }
+    .nav-item:hover .nav-link svg,
+    .nav-item.open .nav-link svg { transform: rotate(180deg); }
+
+    /* Dropdown */
+    .dropdown {
+      position: absolute; top: calc(100% + 0.5rem); left: 50%;
+      transform: translateX(-50%) translateY(-8px);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--crimson-mid);
+      min-width: 200px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+      opacity: 0; visibility: hidden;
+      transition: all var(--transition);
+      border-radius: 0 0 4px 4px;
+      z-index: 200;
+    }
+    .nav-item:hover .dropdown,
+    .nav-item.open .dropdown {
+      opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+    }
+    .dropdown a {
+      display: block;
+      padding: 0.65rem 1.2rem;
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .dropdown a:last-child { border-bottom: none; }
+    .dropdown a:hover { color: var(--gold); background: rgba(139,0,0,0.08); padding-left: 1.6rem; }
+
+    .navbar__actions {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .theme-toggle {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      transition: all var(--transition);
+      background: none;
+    }
+    .theme-toggle:hover { border-color: var(--gold); color: var(--gold); }
+    .theme-toggle svg { width: 16px; height: 16px; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column; justify-content: space-between;
+      width: 26px; height: 18px;
+      background: none; border: none;
+      cursor: pointer; padding: 0;
+    }
+    .hamburger span {
+      display: block; width: 100%; height: 2px;
+      background: var(--text-primary);
+      transition: all var(--transition);
+      transform-origin: left center;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translateY(-1px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translateY(1px); }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999;
+      background: var(--bg-overlay);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 5rem 2rem 2rem;
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mobile-menu.open {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .mobile-menu__nav { margin-bottom: 2rem; }
+    .mobile-nav-item { border-bottom: 1px solid var(--border); }
+    .mobile-nav-link {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%;
+      padding: 1rem 0;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      background: none; border: none;
+      transition: color var(--transition);
+    }
+    .mobile-nav-link:hover { color: var(--crimson-soft); }
+    .mobile-nav-link svg { width: 12px; height: 12px; transition: transform var(--transition); }
+    .mobile-nav-item.open .mobile-nav-link svg { transform: rotate(180deg); }
+    .mobile-dropdown {
+      display: none;
+      padding: 0.5rem 0 1rem 1rem;
+    }
+    .mobile-nav-item.open .mobile-dropdown { display: block; }
+    .mobile-dropdown a {
+      display: block;
+      padding: 0.5rem 0;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      transition: color var(--transition);
+    }
+    .mobile-dropdown a:hover { color: var(--gold); }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero__bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 80% at 20% 40%, rgba(139,0,0,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 60% at 80% 70%, rgba(106,0,0,0.12) 0%, transparent 50%),
+        var(--bg-primary);
+    }
+    /* Animated cross pattern */
+    .hero__pattern {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(139,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,0,0,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      animation: patternShift 20s linear infinite;
+    }
+    @keyframes patternShift {
+      0% { transform: translate(0,0); }
+      100% { transform: translate(80px, 80px); }
+    }
+    .hero__content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      max-width: 900px;
+      animation: heroFadeIn 1.2s ease-out forwards;
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero__cross {
+      margin: 0 auto 2rem;
+      width: 60px; height: 60px;
+      opacity: 0.9;
+      animation: crossPulse 4s ease-in-out infinite;
+    }
+    @keyframes crossPulse {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(139,0,0,0.4)); }
+      50%       { filter: drop-shadow(0 0 24px rgba(139,0,0,0.8)); }
+    }
+    .hero__label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      animation: heroFadeIn 1.2s 0.2s ease-out both;
+    }
+    .hero__title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      animation: heroFadeIn 1.2s 0.35s ease-out both;
+    }
+    .hero__title em {
+      font-style: italic;
+      color: var(--crimson-soft);
+    }
+    .hero__verse {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+      animation: heroFadeIn 1.2s 0.5s ease-out both;
+    }
+    .hero__verse cite {
+      display: block;
+      margin-top: 0.5rem;
+      font-style: normal;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+    }
+    .hero__cta {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1rem; flex-wrap: wrap;
+      animation: heroFadeIn 1.2s 0.65s ease-out both;
+    }
+    .hero__scroll {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      animation: scrollBounce 2s ease-in-out infinite;
+      z-index: 2;
+    }
+    .hero__scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--crimson-mid), transparent);
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ============================================================
+       WELCOME BANNER
+    ============================================================ */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--crimson-deep) 0%, var(--crimson-mid) 100%);
+      padding: 2rem 0;
+    }
+    .welcome-banner__inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      text-align: center;
+    }
+    .banner-stat {
+      padding: 1.25rem 1rem;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    .banner-stat:last-child { border-right: none; }
+    .banner-stat__num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+    }
+    .banner-stat__label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-top: 0.35rem;
+    }
+
+    /* ============================================================
+       ABOUT / BELIEFS SECTION
+    ============================================================ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-image {
+      position: relative;
+    }
+    .about-image__frame {
+      position: relative;
+      border: 2px solid var(--crimson-mid);
+      border-radius: 2px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: var(--bg-card);
+    }
+    .about-image__frame::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(139,0,0,0.06), transparent);
+      z-index: 1;
+    }
+    .about-image__placeholder {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(139,0,0,0.08) 100%);
+    }
+    .about-image__placeholder svg { width: 100px; height: 100px; opacity: 0.15; }
+    .about-image__accent {
+      position: absolute; top: -1rem; right: -1rem;
+      width: 120px; height: 120px;
+      border: 2px solid var(--gold);
+      border-radius: 2px;
+      opacity: 0.25;
+      z-index: -1;
+    }
+    .beliefs-list { margin-top: 2rem; }
+    .belief-item {
+      display: flex; gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .belief-item:last-child { border-bottom: none; }
+    .belief-icon {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(139,0,0,0.12);
+      border: 1px solid var(--crimson-mid);
+      border-radius: 2px;
+      color: var(--crimson-soft);
+      font-size: 1rem;
+      margin-top: 0.2rem;
+    }
+    .belief-text h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    .belief-text p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ============================================================
+       SERMONS SECTION
+    ============================================================ */
+    .sermons-section { background: var(--bg-secondary); }
+    .sermons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .sermon-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: all var(--transition);
+      position: relative;
+    }
+    .sermon-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--crimson-mid), var(--gold));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .sermon-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
+    .sermon-card:hover::before { transform: scaleX(1); }
+    .sermon-card__media {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--crimson-deep) 0%, var(--bg-card) 100%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .sermon-card__media::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.2);
+    }
+    .play-btn {
+      position: relative; z-index: 1;
+      width: 56px; height: 56px;
+      background: rgba(139,0,0,0.85);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition);
+    }
+    .play-btn:hover { background: var(--crimson-bright); transform: scale(1.1); }
+    .play-btn svg { width: 20px; height: 20px; fill: #fff; margin-left: 3px; }
+    .sermon-card__label {
+      position: absolute; top: 0.75rem; left: 0.75rem; z-index: 2;
+    }
+    .sermon-card__body { padding: 1.5rem; }
+    .sermon-card__series {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .sermon-card__title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .sermon-card__meta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .sermon-card__actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .sermon-card__actions .btn { padding: 0.45rem 1rem; font-size: 0.65rem; }
+
+    /* Sermon Filter Bar */
+    .sermon-filters {
+      display: flex; gap: 0.75rem; flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .filter-btn {
+      padding: 0.4rem 1rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+      background: none;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--crimson-mid);
+      border-color: var(--crimson-mid);
+      color: #fff;
+    }
+
+    /* ============================================================
+       MINISTRIES SECTION
+    ============================================================ */
+    .ministries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .ministry-card {
+      position: relative;
+      padding: 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: all var(--transition);
+      overflow: hidden;
+    }
+    .ministry-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--crimson-mid), var(--gold));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .ministry-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--border-hover); }
+    .ministry-card:hover::after { transform: scaleX(1); }
+    .ministry-card__icon {
+      width: 52px; height: 52px;
+      background: rgba(139,0,0,0.12);
+      border: 1px solid var(--crimson-mid);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .ministry-card__title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .ministry-card__desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+    .ministry-card__link {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--crimson-soft);
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: gap var(--transition);
+    }
+    .ministry-card__link:hover { gap: 0.75rem; color: var(--gold); }
+
+    /* ============================================================
+       EVENTS SECTION
+    ============================================================ */
+    .events-section { background: var(--bg-secondary); }
+    .events-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    .event-card {
+      display: flex; gap: 1.5rem;
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      margin-bottom: 1rem;
+      transition: all var(--transition);
+    }
+    .event-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow); }
+    .event-card__date {
+      flex-shrink: 0;
+      width: 60px;
+      text-align: center;
+      padding: 0.5rem;
+      background: var(--crimson-mid);
+      border-radius: 2px;
+      color: #fff;
+    }
+    .event-card__day {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .event-card__month {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .event-card__content h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+    }
+    .event-card__meta {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .event-card__desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .event-sidebar { }
+    .sidebar-widget {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--crimson-mid);
+      border-radius: 2px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-widget h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    .service-time {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    .service-time:last-child { border-bottom: none; }
+    .service-time__day { color: var(--text-secondary); }
+    .service-time__time { color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.05em; }
+    .service-time__type { color: var(--text-muted); font-size: 0.8rem; }
+
+    /* ============================================================
+       GIVE / DONATION SECTION
+    ============================================================ */
+    .give-section {
+      background: linear-gradient(135deg, var(--crimson-deep) 0%, #3D0000 100%);
+      position: relative; overflow: hidden;
+    }
+    .give-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .give-section__inner {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .give-section .section-title { color: #fff; }
+    .give-section .section-subtitle { color: rgba(255,255,255,0.7); }
+    .give-amounts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .give-amount-btn {
+      padding: 0.75rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 2px;
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-align: center;
+    }
+    .give-amount-btn:hover, .give-amount-btn.active {
+      background: var(--gold);
+      color: #1A0505;
+      border-color: var(--gold);
+    }
+    .give-form { }
+    .form-group { margin-bottom: 1rem; }
+    .form-label {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 0.4rem;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 2px;
+      color: #fff;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      transition: border-color var(--transition);
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.35); }
+    .form-input:focus { outline: none; border-color: var(--gold); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 2px;
+      color: #fff;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      cursor: pointer;
+      appearance: none;
+    }
+    .form-select option { background: #3D0000; color: #fff; }
+    .give-note {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: 0.75rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .give-note svg { width: 14px; height: 14px; flex-shrink: 0; }
+    /* Regular form styles (contact, newsletter) */
+    .contact-form .form-label { color: var(--text-secondary); }
+    .contact-form .form-input {
+      background: var(--bg-card);
+      border-color: var(--border);
+      color: var(--text-primary);
+    }
+    .contact-form .form-input:focus { border-color: var(--crimson-mid); }
+    .contact-form .form-input::placeholder { color: var(--text-muted); }
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+
+    /* ============================================================
+       PASTOR / LEADERSHIP
+    ============================================================ */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .team-card {
+      text-align: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+    .team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
+    .team-card__image {
+      position: relative;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, var(--crimson-deep) 0%, var(--bg-card) 100%);
+      overflow: hidden;
+    }
+    .team-card__image-placeholder {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .team-card__image-placeholder svg { width: 80px; height: 80px; opacity: 0.1; }
+    .team-card__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,3,3,0.85), transparent 50%);
+      opacity: 0; transition: opacity var(--transition);
+    }
+    .team-card:hover .team-card__overlay { opacity: 1; }
+    .team-card__body { padding: 1.25rem; }
+    .team-card__name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .team-card__role {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 0.35rem;
+    }
+    .team-card__bio {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-top: 0.75rem;
+    }
+
+    /* ============================================================
+       RESOURCES / BLOG
+    ============================================================ */
+    .resources-section { background: var(--bg-secondary); }
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .resource-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+    .resource-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
+    .resource-card__thumb {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--crimson-deep), var(--bg-card));
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .resource-card__body { padding: 1.5rem; }
+    .resource-card__category {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .resource-card__title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .resource-card__excerpt {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    .resource-card__footer {
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CONTACT SECTION
+    ============================================================ */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-info { }
+    .contact-item {
+      display: flex; gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .contact-item__icon {
+      width: 44px; height: 44px;
+      flex-shrink: 0;
+      background: rgba(139,0,0,0.12);
+      border: 1px solid var(--crimson-mid);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      color: var(--crimson-soft);
+    }
+    .contact-item__label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.25rem;
+    }
+    .contact-item__value {
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+    .social-links {
+      display: flex; gap: 0.75rem;
+      margin-top: 2rem;
+    }
+    .social-link {
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      transition: all var(--transition);
+    }
+    .social-link:hover { border-color: var(--crimson-mid); color: var(--crimson-soft); background: rgba(139,0,0,0.1); }
+
+    /* ============================================================
+       NEWSLETTER SECTION
+    ============================================================ */
+    .newsletter-section {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .newsletter-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .newsletter-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .newsletter-text p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-top: 0.35rem;
+    }
+    .newsletter-form {
+      display: flex; gap: 0.75rem;
+      flex: 1; min-width: 300px;
+    }
+    .newsletter-form .form-input {
+      flex: 1;
+      background: var(--bg-card);
+      border-color: var(--border);
+      color: var(--text-primary);
+    }
+    .newsletter-form .form-input:focus { border-color: var(--crimson-mid); }
+    .newsletter-form .form-input::placeholder { color: var(--text-muted); }
+
+    /* ============================================================
+       STATEMENT OF FAITH
+    ============================================================ */
+    .faith-accordion { margin-top: 2rem; }
+    .faith-item {
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+      transition: border-color var(--transition);
+    }
+    .faith-item.open { border-color: var(--crimson-mid); }
+    .faith-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .faith-header:hover { background: rgba(139,0,0,0.06); }
+    .faith-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .faith-header__num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      color: var(--gold);
+      margin-right: 1rem;
+    }
+    .faith-header__left { display: flex; align-items: center; }
+    .faith-toggle {
+      width: 28px; height: 28px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--crimson-soft);
+      font-size: 1.1rem;
+      transition: all var(--transition);
+    }
+    .faith-item.open .faith-toggle { background: var(--crimson-mid); color: #fff; border-color: var(--crimson-mid); }
+    .faith-body {
+      display: none;
+      padding: 1.25rem 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-primary);
+    }
+    .faith-item.open .faith-body { display: block; }
+    .faith-body p { font-size: 1rem; color: var(--text-secondary); line-height: 1.75; }
+    .faith-body .ref {
+      margin-top: 0.75rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+    }
+
+    /* ============================================================
+       MAP PLACEHOLDER
+    ============================================================ */
+    .map-container {
+      height: 300px;
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1rem;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .map-container::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(139,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,0,0,0.04) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .map-placeholder-text {
+      position: relative; z-index: 1;
+      text-align: center;
+    }
+    .map-placeholder-text h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .map-placeholder-text p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding-top: 4rem;
+    }
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .footer__about {}
+    .footer__logo {
+      display: flex; align-items: center; gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .footer__about p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .footer__col h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .footer__links li { margin-bottom: 0.65rem; }
+    .footer__links a {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      transition: color var(--transition), padding-left var(--transition);
+      display: block;
+    }
+    .footer__links a:hover { color: var(--gold); padding-left: 0.5rem; }
+    .footer__bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      padding: 1.5rem 0;
+    }
+    .footer__copyright {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+    .footer__bottom-links {
+      display: flex; gap: 1.5rem;
+    }
+    .footer__bottom-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+    .footer__bottom-links a:hover { color: var(--gold); }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--crimson-mid);
+      border-radius: 4px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      animation: slideUp 0.3s ease;
+      position: relative;
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .modal__close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      transition: all var(--transition);
+      background: none;
+    }
+    .modal__close:hover { border-color: var(--crimson-mid); color: var(--crimson-soft); }
+    .modal__title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    .modal__subtitle {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ============================================================
+       TOAST NOTIFICATIONS
+    ============================================================ */
+    .toast-container {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 3000;
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--crimson-mid);
+      border-radius: 2px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      display: flex; align-items: center; gap: 0.75rem;
+      max-width: 340px;
+      animation: toastSlide 0.35s ease;
+    }
+    .toast.success { border-left-color: #27ae60; }
+    .toast.error   { border-left-color: var(--crimson-bright); }
+    @keyframes toastSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    .toast__icon { font-size: 1.2rem; }
+    .toast__text { font-size: 0.95rem; color: var(--text-primary); }
+    .toast__close { margin-left: auto; cursor: pointer; color: var(--text-muted); font-size: 1rem; background: none; border: none; }
+
+    /* ============================================================
+       PAGE SECTIONS (SPA routing)
+    ============================================================ */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ============================================================
+       BACK TO TOP
+    ============================================================ */
+    .back-to-top {
+      position: fixed; bottom: 2rem; left: 2rem; z-index: 500;
+      width: 44px; height: 44px;
+      background: var(--crimson-mid);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      opacity: 0; pointer-events: none;
+      transition: all var(--transition);
+      box-shadow: 0 4px 16px rgba(139,0,0,0.4);
+    }
+    .back-to-top.visible { opacity: 1; pointer-events: all; }
+    .back-to-top:hover { background: var(--crimson-bright); transform: translateY(-2px); }
+    .back-to-top svg { width: 18px; height: 18px; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .about-grid, .give-section__inner, .contact-layout, .events-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .footer__grid { grid-template-columns: 1fr 1fr; }
+      .give-amounts { grid-template-columns: repeat(2, 1fr); }
+      .topbar { display: none; }
+      .navbar__menu { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 640px) {
+      .section { padding: 3.5rem 0; }
+      .footer__grid { grid-template-columns: 1fr; }
+      .sermons-grid, .ministries-grid, .resources-grid, .team-grid { grid-template-columns: 1fr; }
+      .welcome-banner__inner { grid-template-columns: repeat(2, 1fr); }
+      .hero__title { font-size: 2.4rem; }
+      .newsletter-form { flex-direction: column; }
+      .give-amounts { grid-template-columns: repeat(4, 1fr); }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+    .fade-in {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       VERSE OF THE DAY TICKER
+    ============================================================ */
+    .verse-ticker {
+      background: rgba(139,0,0,0.08);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      height: 44px;
+      display: flex; align-items: center;
+    }
+    .verse-ticker__label {
+      flex-shrink: 0;
+      padding: 0 1.25rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .verse-ticker__track { overflow: hidden; flex: 1; }
+    .verse-ticker__inner {
+      display: flex;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    .verse-ticker__inner:hover { animation-play-state: paused; }
+    .verse-ticker__item {
+      padding: 0 3rem;
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .verse-ticker__item span {
+      font-style: normal;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-left: 0.75rem;
+    }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Live stream badge */
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.25rem 0.65rem;
+      background: var(--crimson-bright);
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      animation: livePulse 2s ease-in-out infinite;
+    }
+    .live-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: #fff;
+      border-radius: 50%;
+      animation: liveDot 1s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.4); }
+      50%       { box-shadow: 0 0 0 6px rgba(192,57,43,0); }
+    }
+    @keyframes liveDot {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    /* Prayer wall */
+    .prayer-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--crimson-mid);
+      border-radius: 2px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .prayer-card__text { font-style: italic; color: var(--text-secondary); line-height: 1.7; }
+    .prayer-card__meta {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- BACK TO TOP -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top" onclick="scrollToTop()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- TOP BAR -->
+  <div class="topbar" id="topbar">
+    <div class="container">
+      <div class="topbar__inner">
+        <div class="topbar__links">
+          <a href="#services">📅 Services: Sun 9AM &amp; 11AM | Wed 7PM</a>
+          <a href="#location">📍 123 Faith Avenue, Your City, ST 00000</a>
+        </div>
+        <div class="topbar__links">
+          <a href="#sermons">Latest Sermon</a>
+          <a href="#give">Give Online</a>
+          <a href="#contact">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar__inner">
+      <!-- Logo -->
+      <a href="#home" class="navbar__logo" onclick="showPage('home')">
+        <div class="navbar__logo-mark">
+          <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="17" y="4" width="8" height="34" rx="1" fill="#8B0000"/>
+            <rect x="4" y="14" width="34" height="8" rx="1" fill="#8B0000"/>
+            <rect x="19" y="6" width="4" height="30" rx="0.5" fill="#C9A84C" opacity="0.4"/>
+            <rect x="6" y="16" width="30" height="4" rx="0.5" fill="#C9A84C" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="navbar__logo-text">
+          <span class="navbar__logo-name">Cruciform</span>
+          <span class="navbar__logo-tagline">Word-Centered · Cross-Focused</span>
+        </div>
+      </a>
+
+      <!-- Desktop Menu -->
+      <ul class="navbar__menu" role="list">
+        <li class="nav-item">
+          <button class="nav-link" onclick="showPage('about')">About
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="dropdown">
+            <a href="#about" onclick="showPage('about')">Our Story</a>
+            <a href="#beliefs" onclick="showPage('beliefs')">Statement of Faith</a>
+            <a href="#leadership" onclick="showPage('leadership')">Leadership</a>
+            <a href="#history" onclick="showPage('about')">Our History</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" onclick="showPage('sermons')">Sermons
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="dropdown">
+            <a href="#sermons" onclick="showPage('sermons')">Latest Sermons</a>
+            <a href="#sermons" onclick="showPage('sermons')">Sermon Series</a>
+            <a href="#sermons" onclick="showPage('sermons')">Bible Reading Plan</a>
+            <a href="#sermons" onclick="showPage('sermons')">Podcast</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" onclick="showPage('ministries')">Ministries
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="dropdown">
+            <a href="#ministries" onclick="showPage('ministries')">Men's Ministry</a>
+            <a href="#ministries" onclick="showPage('ministries')">Women's Ministry</a>
+            <a href="#ministries" onclick="showPage('ministries')">Youth Ministry</a>
+            <a href="#ministries" onclick="showPage('ministries')">Children's Ministry</a>
+            <a href="#ministries" onclick="showPage('ministries')">Missions &amp; Outreach</a>
+            <a href="#ministries" onclick="showPage('ministries')">Small Groups</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" onclick="showPage('events')">Events
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="dropdown">
+            <a href="#events" onclick="showPage('events')">Upcoming Events</a>
+            <a href="#events" onclick="showPage('events')">Calendar</a>
+            <a href="#events" onclick="showPage('events')">Conferences</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" onclick="showPage('resources')">Resources
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="dropdown">
+            <a href="#resources" onclick="showPage('resources')">Articles &amp; Blog</a>
+            <a href="#resources" onclick="showPage('resources')">Devotionals</a>
+            <a href="#resources" onclick="showPage('resources')">Bible Study Tools</a>
+            <a href="#resources" onclick="showPage('resources')">Recommended Books</a>
+            <a href="#prayer" onclick="showPage('prayer')">Prayer Wall</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact" onclick="showPage('contact')">Contact</a>
+        </li>
+      </ul>
+
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" onclick="toggleTheme()">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <a href="#give" class="btn btn--primary" onclick="openGiveModal()">Give Online</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <nav class="mobile-menu__nav">
+      <ul>
+        <li class="mobile-nav-item">
+          <button class="mobile-nav-link" onclick="toggleMobileDropdown(this)">About
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="mobile-dropdown">
+            <a href="#about" onclick="showPage('about');closeMobileMenu()">Our Story</a>
+            <a href="#beliefs" onclick="showPage('beliefs');closeMobileMenu()">Statement of Faith</a>
+            <a href="#leadership" onclick="showPage('leadership');closeMobileMenu()">Leadership</a>
+          </div>
+        </li>
+        <li class="mobile-nav-item">
+          <button class="mobile-nav-link" onclick="showPage('sermons');closeMobileMenu()">Sermons</button>
+        </li>
+        <li class="mobile-nav-item">
+          <button class="mobile-nav-link" onclick="toggleMobileDropdown(this)">Ministries
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="mobile-dropdown">
+            <a href="#ministries" onclick="showPage('ministries');closeMobileMenu()">All Ministries</a>
+            <a href="#ministries" onclick="showPage('ministries');closeMobileMenu()">Small Groups</a>
+            <a href="#ministries" onclick="showPage('ministries');closeMobileMenu()">Missions</a>
+          </div>
+        </li>
+        <li class="mobile-nav-item">
+          <button class="mobile-nav-link" onclick="showPage('events');closeMobileMenu()">Events</button>
+        </li>
+        <li class="mobile-nav-item">
+          <button class="mobile-nav-link" onclick="showPage('resources');closeMobileMenu()">Resources</button>
+        </li>
+        <li class="mobile-nav-item">
+          <button class="mobile-nav-link" onclick="showPage('contact');closeMobileMenu()">Contact</button>
+        </li>
+      </ul>
+    </nav>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="#give" class="btn btn--primary" onclick="openGiveModal();closeMobileMenu()">Give Online</a>
+      <a href="#sermons" class="btn btn--outline" onclick="showPage('sermons');closeMobileMenu()">Watch Sermons</a>
+    </div>
+  </div>
+
+  <!-- GIVE MODAL -->
+  <div class="modal-overlay" id="giveModal">
+    <div class="modal">
+      <button class="modal__close" onclick="closeGiveModal()" aria-label="Close">✕</button>
+      <p class="section-label">Support the Ministry</p>
+      <h2 class="modal__title">Give to Cruciform Church</h2>
+      <p class="modal__subtitle">Your generous gift supports Word-centered ministry locally and globally.</p>
+      <div class="give-amounts" style="margin-bottom:1rem;">
+        <button class="give-amount-btn" onclick="selectAmount(this,'25')">$25</button>
+        <button class="give-amount-btn active" onclick="selectAmount(this,'50')">$50</button>
+        <button class="give-amount-btn" onclick="selectAmount(this,'100')">$100</button>
+        <button class="give-amount-btn" onclick="selectAmount(this,'custom')">Custom</button>
+      </div>
+      <div id="customAmountWrap" style="display:none;margin-bottom:1rem;">
+        <label class="form-label" style="color:var(--text-secondary);">Custom Amount ($)</label>
+        <input type="number" class="form-input" id="customAmount" placeholder="Enter amount" style="background:var(--bg-secondary);border-color:var(--border);color:var(--text-primary);" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" style="color:var(--text-secondary);">Giving Fund</label>
+        <select class="form-select" style="background:var(--bg-secondary);border-color:var(--border);color:var(--text-primary);">
+          <option>General Fund</option>
+          <option>Building Fund</option>
+          <option>Missions Fund</option>
+          <option>Youth Ministry</option>
+          <option>Benevolence Fund</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" style="color:var(--text-secondary);">Giving Frequency</label>
+        <select class="form-select" style="background:var(--bg-secondary);border-color:var(--border);color:var(--text-primary);">
+          <option>One-Time Gift</option>
+          <option>Weekly</option>
+          <option>Bi-Weekly</option>
+          <option>Monthly</option>
+        </select>
+      </div>
+      <div style="background:rgba(139,0,0,0.06);border:1px solid var(--border);border-radius:2px;padding:1rem;margin-bottom:1rem;">
+        <p style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.5rem;">Payment Processing</p>
+        <p style="font-size:0.9rem;color:var(--text-secondary);">This integration supports <strong style="color:var(--text-primary);">Stripe</strong>, <strong style="color:var(--text-primary);">PayPal</strong>, and <strong style="color:var(--text-primary);">Pushpay</strong>. Configure your API keys in the <code style="font-size:0.8em;color:var(--crimson-soft);">CONFIG</code> object to activate live payments.</p>
+      </div>
+      <button class="btn btn--primary" style="width:100%;justify-content:center;" onclick="processGift()">
+        🙏 Proceed to Secure Giving
+      </button>
+      <p style="font-size:0.8rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;">
+        🔒 Secured by SSL · Tax-deductible · Receipts emailed automatically
+      </p>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MAIN CONTENT — SINGLE PAGE APPLICATION
+  ================================================================ -->
+  <main id="main-content">
+
+    <!-- ======================== HOME PAGE ======================== -->
+    <div class="page active" id="page-home">
+
+      <!-- HERO -->
+      <section class="hero" id="home">
+        <div class="hero__bg"></div>
+        <div class="hero__pattern"></div>
+        <div class="hero__content">
+          <div class="hero__cross">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="25" y="4" width="10" height="52" rx="2" fill="#8B0000"/>
+              <rect x="4" y="20" width="52" height="10" rx="2" fill="#8B0000"/>
+              <rect x="27" y="6" width="6" height="48" rx="1" fill="#C9A84C" opacity="0.35"/>
+              <rect x="6" y="22" width="48" height="6" rx="1" fill="#C9A84C" opacity="0.35"/>
+            </svg>
+          </div>
+          <p class="hero__label">Cruciform Church — Established 2008</p>
+          <h1 class="hero__title">Shaped by the <em>Cross</em>,<br>Rooted in the <em>Word</em></h1>
+          <blockquote class="hero__verse">
+            "For I decided to know nothing among you except Jesus Christ and him crucified."
+            <cite>— 1 Corinthians 2:2 (ESV)</cite>
+          </blockquote>
+          <div class="hero__cta">
+            <a href="#about" class="btn btn--primary" onclick="showPage('about')">Discover Our Church</a>
+            <a href="#sermons" class="btn btn--outline" onclick="showPage('sermons')">Latest Sermons</a>
+          </div>
+        </div>
+        <div class="hero__scroll" aria-hidden="true">
+          <div class="hero__scroll-line"></div>
+          <span>Scroll</span>
+        </div>
+      </section>
+
+      <!-- VERSE TICKER -->
+      <div class="verse-ticker" id="services" aria-label="Scripture verses">
+        <div class="verse-ticker__label">Scripture</div>
+        <div class="verse-ticker__track">
+          <div class="verse-ticker__inner">
+            <span class="verse-ticker__item">"The grass withers, the flower fades, but the word of our God will stand forever." <span>Isaiah 40:8</span></span>
+            <span class="verse-ticker__item">"Your word is a lamp to my feet and a light to my path." <span>Psalm 119:105</span></span>
+            <span class="verse-ticker__item">"For the word of God is living and active, sharper than any two-edged sword." <span>Hebrews 4:12</span></span>
+            <span class="verse-ticker__item">"All Scripture is breathed out by God and profitable for teaching, for reproof, for correction..." <span>2 Timothy 3:16</span></span>
+            <span class="verse-ticker__item">"The grass withers, the flower fades, but the word of our God will stand forever." <span>Isaiah 40:8</span></span>
+            <span class="verse-ticker__item">"Your word is a lamp to my feet and a light to my path." <span>Psalm 119:105</span></span>
+            <span class="verse-ticker__item">"For the word of God is living and active, sharper than any two-edged sword." <span>Hebrews 4:12</span></span>
+            <span class="verse-ticker__item">"All Scripture is breathed out by God and profitable for teaching, for reproof, for correction..." <span>2 Timothy 3:16</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS BANNER -->
+      <div class="welcome-banner">
+        <div class="container">
+          <div class="welcome-banner__inner">
+            <div class="banner-stat">
+              <div class="banner-stat__num">16+</div>
+              <div class="banner-stat__label">Years of Ministry</div>
+            </div>
+            <div class="banner-stat">
+              <div class="banner-stat__num">600+</div>
+              <div class="banner-stat__label">Active Members</div>
+            </div>
+            <div class="banner-stat">
+              <div class="banner-stat__num">12</div>
+              <div class="banner-stat__label">Small Groups</div>
+            </div>
+            <div class="banner-stat">
+              <div class="banner-stat__num">8</div>
+              <div class="banner-stat__label">Mission Partners</div>
+            </div>
+            <div class="banner-stat">
+              <div class="banner-stat__num">500+</div>
+              <div class="banner-stat__label">Sermons Online</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT INTRO -->
+      <section class="section" id="about-intro">
+        <div class="container">
+          <div class="about-grid fade-in">
+            <div class="about-image">
+              <div class="about-image__frame">
+                <div class="about-image__placeholder">
+                  <svg viewBox="0 0 100 100" fill="none">
+                    <rect x="40" y="10" width="20" height="80" rx="3" fill="#8B0000"/>
+                    <rect x="10" y="35" width="80" height="20" rx="3" fill="#8B0000"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="about-image__accent"></div>
+            </div>
+            <div>
+              <p class="section-label">Who We Are</p>
+              <h2 class="section-title">A Church Built on the<br>Unchanging Word</h2>
+              <div class="divider"></div>
+              <p class="section-subtitle">Cruciform Church is a Reformed, evangelical congregation committed to expository preaching, biblical discipleship, and the Great Commission. We exist to glorify God by making and maturing disciples of Jesus Christ.</p>
+              <div class="beliefs-list">
+                <div class="belief-item">
+                  <div class="belief-icon">✝</div>
+                  <div class="belief-text"><h4>Expository Preaching</h4><p>Every sermon is a careful exposition of a biblical text, letting Scripture speak for itself with clarity and application.</p></div>
+                </div>
+                <div class="belief-item">
+                  <div class="belief-icon">📖</div>
+                  <div class="belief-text"><h4>Biblical Authority</h4><p>We hold the 66 books of the Bible to be the inerrant, infallible, and sufficient Word of God for all of life and doctrine.</p></div>
+                </div>
+                <div class="belief-item">
+                  <div class="belief-icon">🌍</div>
+                  <div class="belief-text"><h4>Gospel-Centered Mission</h4><p>The Gospel of grace drives everything we do — locally in our community and globally through our mission partners.</p></div>
+                </div>
+              </div>
+              <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+                <a href="#about" class="btn btn--primary" onclick="showPage('about')">Learn More About Us</a>
+                <a href="#beliefs" class="btn btn--outline" onclick="showPage('beliefs')">Statement of Faith</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURED SERMONS -->
+      <section class="section sermons-section" id="sermons-home">
+        <div class="container">
+          <div class="text-center fade-in">
+            <p class="section-label">Preach the Word</p>
+            <h2 class="section-title">Recent Sermons</h2>
+            <div class="divider divider--center"></div>
+            <p class="section-subtitle" style="margin:0 auto 0.5rem;">Sit under the faithful exposition of God's Word every week from our pulpit.</p>
+          </div>
+          <div class="sermons-grid">
+            <div class="sermon-card fade-in">
+              <div class="sermon-card__media">
+                <div class="sermon-card__label"><span class="live-badge">Live This Sun</span></div>
+                <button class="play-btn" onclick="showToast('🎧 Opening sermon audio player...','info')">
+                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+              </div>
+              <div class="sermon-card__body">
+                <div class="sermon-card__series">Romans Series · Part 42</div>
+                <h3 class="sermon-card__title">The Gospel of God — Justification by Faith Alone</h3>
+                <div class="sermon-card__meta">
+                  <span>Pastor John Williams</span>
+                  <span>Romans 3:21–31</span>
+                  <span>Mar 2, 2025</span>
+                </div>
+                <div class="sermon-card__actions">
+                  <button class="btn btn--primary" onclick="showToast('🎧 Playing audio...','info')">Listen</button>
+                  <button class="btn btn--outline" onclick="showToast('🎬 Opening video...','info')">Watch</button>
+                  <button class="btn btn--outline" onclick="showToast('📄 Downloading notes...','info')">Notes</button>
+                </div>
+              </div>
+            </div>
+            <div class="sermon-card fade-in">
+              <div class="sermon-card__media">
+                <button class="play-btn" onclick="showToast('🎧 Opening sermon audio player...','info')">
+                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+              </div>
+              <div class="sermon-card__body">
+                <div class="sermon-card__series">Philippians Series · Part 8</div>
+                <h3 class="sermon-card__title">The Peace That Surpasses Understanding</h3>
+                <div class="sermon-card__meta">
+                  <span>Pastor Mark Davis</span>
+                  <span>Philippians 4:4–9</span>
+                  <span>Feb 23, 2025</span>
+                </div>
+                <div class="sermon-card__actions">
+                  <button class="btn btn--primary" onclick="showToast('🎧 Playing audio...','info')">Listen</button>
+                  <button class="btn btn--outline" onclick="showToast('🎬 Opening video...','info')">Watch</button>
+                  <button class="btn btn--outline" onclick="showToast('📄 Downloading notes...','info')">Notes</button>
+                </div>
+              </div>
+            </div>
+            <div class="sermon-card fade-in">
+              <div class="sermon-card__media">
+                <button class="play-btn" onclick="showToast('🎧 Opening sermon audio player...','info')">
+                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+              </div>
+              <div class="sermon-card__body">
+                <div class="sermon-card__series">Special Series — Apologetics</div>
+                <h3 class="sermon-card__title">Contending Earnestly for the Faith</h3>
+                <div class="sermon-card__meta">
+                  <span>Elder Thomas Reed</span>
+                  <span>Jude 1:1–4</span>
+                  <span>Feb 16, 2025</span>
+                </div>
+                <div class="sermon-card__actions">
+                  <button class="btn btn--primary" onclick="showToast('🎧 Playing audio...','info')">Listen</button>
+                  <button class="btn btn--outline" onclick="showToast('🎬 Opening video...','info')">Watch</button>
+                  <button class="btn btn--outline" onclick="showToast('📄 Downloading notes...','info')">Notes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center" style="margin-top:2.5rem;">
+            <a href="#sermons" class="btn btn--outline" onclick="showPage('sermons')">View All Sermons →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- MINISTRIES -->
+      <section class="section" id="ministries-home">
+        <div class="container">
+          <div class="text-center fade-in">
+            <p class="section-label">Connect &amp; Grow</p>
+            <h2 class="section-title">Our Ministries</h2>
+            <div class="divider divider--center"></div>
+          </div>
+          <div class="ministries-grid">
+            <div class="ministry-card fade-in">
+              <div class="ministry-card__icon">👨‍👩‍👧‍👦</div>
+              <h3 class="ministry-card__title">Family &amp; Children</h3>
+              <p class="ministry-card__desc">Nurturing the next generation in the knowledge of Christ through age-appropriate, Bible-saturated programming every Sunday.</p>
+              <a href="#ministries" class="ministry-card__link" onclick="showPage('ministries')">Learn More →</a>
+            </div>
+            <div class="ministry-card fade-in">
+              <div class="ministry-card__icon">🧑‍🤝‍🧑</div>
+              <h3 class="ministry-card__title">Small Groups</h3>
+              <p class="ministry-card__desc">Mid-week community groups meet in homes across the city for Bible study, prayer, accountability, and fellowship.</p>
+              <a href="#ministries" class="ministry-card__link" onclick="showPage('ministries')">Learn More →</a>
+            </div>
+            <div class="ministry-card fade-in">
+              <div class="ministry-card__icon">🌍</div>
+              <h3 class="ministry-card__title">Missions &amp; Outreach</h3>
+              <p class="ministry-card__desc">Supporting 8 missionary families worldwide and engaging our local community with the transforming power of the Gospel.</p>
+              <a href="#ministries" class="ministry-card__link" onclick="showPage('ministries')">Learn More →</a>
+            </div>
+            <div class="ministry-card fade-in">
+              <div class="ministry-card__icon">🎵</div>
+              <h3 class="ministry-card__title">Worship &amp; Arts</h3>
+              <p class="ministry-card__desc">Christ-exalting, congregation-led worship that keeps the cross central and equips the body to sing the truths of Scripture.</p>
+              <a href="#ministries" class="ministry-card__link" onclick="showPage('ministries')">Learn More →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- UPCOMING EVENTS -->
+      <section class="section events-section" id="events-home">
+        <div class="container">
+          <div class="fade-in">
+            <p class="section-label">Community Life</p>
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="divider"></div>
+          </div>
+          <div class="events-layout">
+            <div>
+              <div class="event-card fade-in">
+                <div class="event-card__date"><span class="event-card__day">15</span><span class="event-card__month">Mar</span></div>
+                <div class="event-card__content">
+                  <h4>Spring Theology Conference</h4>
+                  <div class="event-card__meta">📍 Main Sanctuary · 9:00 AM – 5:00 PM</div>
+                  <p class="event-card__desc">A full-day conference on the doctrine of salvation with guest speakers from multiple Reformed churches.</p>
+                  <div style="margin-top:0.75rem;"><button class="btn btn--primary" style="padding:0.4rem 1rem;font-size:0.65rem;" onclick="showToast('📋 Registration opened!','success')">Register Now</button></div>
+                </div>
+              </div>
+              <div class="event-card fade-in">
+                <div class="event-card__date"><span class="event-card__day">22</span><span class="event-card__month">Mar</span></div>
+                <div class="event-card__content">
+                  <h4>Men's Scripture &amp; Fellowship Breakfast</h4>
+                  <div class="event-card__meta">📍 Fellowship Hall · 7:30 AM</div>
+                  <p class="event-card__desc">Monthly men's gathering for breakfast, Bible study, and brotherly encouragement in the faith.</p>
+                  <div style="margin-top:0.75rem;"><button class="btn btn--primary" style="padding:0.4rem 1rem;font-size:0.65rem;" onclick="showToast('📋 Signed up!','success')">RSVP</button></div>
+                </div>
+              </div>
+              <div class="event-card fade-in">
+                <div class="event-card__date"><span class="event-card__day">5</span><span class="event-card__month">Apr</span></div>
+                <div class="event-card__content">
+                  <h4>Good Friday Service</h4>
+                  <div class="event-card__meta">📍 Main Sanctuary · 7:00 PM</div>
+                  <p class="event-card__desc">A solemn, reflective service meditating on the crucifixion of our Lord, with Scripture, music, and the Lord's Supper.</p>
+                </div>
+              </div>
+            </div>
+            <div class="event-sidebar">
+              <div class="sidebar-widget" id="location">
+                <h3>🕐 Service Times</h3>
+                <div class="service-time">
+                  <span class="service-time__day">Sunday Morning</span>
+                  <div>
+                    <div class="service-time__time">9:00 AM</div>
+                    <div class="service-time__type">Worship Service</div>
+                  </div>
+                </div>
+                <div class="service-time">
+                  <span class="service-time__day">Sunday Morning</span>
+                  <div>
+                    <div class="service-time__time">11:00 AM</div>
+                    <div class="service-time__type">Worship Service</div>
+                  </div>
+                </div>
+                <div class="service-time">
+                  <span class="service-time__day">Sunday</span>
+                  <div>
+                    <div class="service-time__time">9:00 AM</div>
+                    <div class="service-time__type">Sunday School</div>
+                  </div>
+                </div>
+                <div class="service-time">
+                  <span class="service-time__day">Wednesday</span>
+                  <div>
+                    <div class="service-time__time">7:00 PM</div>
+                    <div class="service-time__type">Prayer &amp; Bible Study</div>
+                  </div>
+                </div>
+              </div>
+              <div class="sidebar-widget">
+                <h3>📍 Find Us</h3>
+                <p style="font-size:0.95rem;color:var(--text-secondary);margin-bottom:1rem;">123 Faith Avenue<br>Your City, ST 00000</p>
+                <button class="btn btn--primary" style="width:100%;justify-content:center;" onclick="showToast('🗺️ Opening map directions...','info')">Get Directions</button>
+              </div>
+              <div class="sidebar-widget">
+                <h3>📺 Watch Live</h3>
+                <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:1rem;">Join us online Sunday mornings at 9 AM and 11 AM EST via YouTube, Facebook, or our website.</p>
+                <button class="btn btn--gold" style="width:100%;justify-content:center;" onclick="showToast('📺 Redirecting to live stream...','info')">
+                  <span class="live-badge" style="margin-right:0.25rem;padding:0.15rem 0.4rem;font-size:0.55rem;">Live</span>
+                  Watch This Sunday
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="text-center" style="margin-top:2rem;">
+            <a href="#events" class="btn btn--outline" onclick="showPage('events')">View All Events →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- GIVE SECTION -->
+      <section class="section give-section" id="give">
+        <div class="container">
+          <div class="give-section__inner">
+            <div>
+              <p class="section-label" style="color:rgba(201,168,76,0.8);">Support the Work</p>
+              <h2 class="section-title">Give to the Ministry</h2>
+              <div class="divider"></div>
+              <p class="section-subtitle">"Each one must give as he has decided in his heart, not reluctantly or under compulsion, for God loves a cheerful giver." — 2 Corinthians 9:7</p>
+              <ul style="margin-top:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+                <li style="display:flex;gap:0.75rem;align-items:center;font-size:0.95rem;color:rgba(255,255,255,0.7);">
+                  <span style="color:var(--gold);">✓</span> Gifts are tax-deductible
+                </li>
+                <li style="display:flex;gap:0.75rem;align-items:center;font-size:0.95rem;color:rgba(255,255,255,0.7);">
+                  <span style="color:var(--gold);">✓</span> Secure SSL-encrypted processing
+                </li>
+                <li style="display:flex;gap:0.75rem;align-items:center;font-size:0.95rem;color:rgba(255,255,255,0.7);">
+                  <span style="color:var(--gold);">✓</span> Email receipts sent automatically
+                </li>
+                <li style="display:flex;gap:0.75rem;align-items:center;font-size:0.95rem;color:rgba(255,255,255,0.7);">
+                  <span style="color:var(--gold);">✓</span> Set up recurring giving easily
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:2rem;">
+                <p style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:1rem;">Select Giving Amount</p>
+                <div class="give-amounts">
+                  <button class="give-amount-btn" onclick="selectAmount(this,'25')">$25</button>
+                  <button class="give-amount-btn active" onclick="selectAmount(this,'50')">$50</button>
+                  <button class="give-amount-btn" onclick="selectAmount(this,'100')">$100</button>
+                  <button class="give-amount-btn" onclick="selectAmount(this,'custom')">Custom</button>
+                </div>
+                <div id="customAmountWrap2" style="display:none;margin-bottom:1rem;">
+                  <input type="number" class="form-input" id="customAmount2" placeholder="Enter custom amount ($)" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Fund</label>
+                  <select class="form-select">
+                    <option>General Fund</option>
+                    <option>Building Fund</option>
+                    <option>Missions Fund</option>
+                    <option>Youth Ministry</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-input" placeholder="John" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-input" placeholder="Smith" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-input" placeholder="john@example.com" />
+                </div>
+                <button class="btn btn--gold" style="width:100%;justify-content:center;margin-top:0.5rem;font-size:0.82rem;padding:0.85rem;" onclick="processGift()">
+                  🙏 Give Securely Now
+                </button>
+                <p class="give-note">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Secured by 256-bit SSL encryption
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEWSLETTER -->
+      <section class="section--sm newsletter-section" id="newsletter">
+        <div class="container">
+          <div class="newsletter-inner fade-in">
+            <div class="newsletter-text">
+              <h3>Stay Connected</h3>
+              <p>Weekly devotionals, sermon announcements &amp; ministry news delivered to your inbox.</p>
+            </div>
+            <div class="newsletter-form">
+              <input type="email" class="form-input" id="newsletterEmail" placeholder="Your email address" />
+              <button class="btn btn--primary" onclick="subscribeNewsletter()">Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /page-home -->
+
+
+    <!-- ======================== ABOUT PAGE ======================== -->
+    <div class="page" id="page-about">
+      <div style="padding-top:80px;">
+        <div style="background:var(--bg-secondary);padding:4rem 0;text-align:center;border-bottom:1px solid var(--border);">
+          <div class="container">
+            <p class="section-label">About Cruciform Church</p>
+            <h1 class="section-title">Our Story &amp; Mission</h1>
+            <div class="divider divider--center"></div>
+            <p class="section-subtitle" style="margin:0 auto;">Founded on the conviction that the preached Word of God is the primary means of grace, Cruciform Church has been discipling believers since 2008.</p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container">
+            <div style="max-width:760px;margin:0 auto;">
+              <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--text-primary);margin-bottom:1rem;">Our Story</h2>
+              <p style="font-size:1.1rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1.5rem;">Cruciform Church began in 2008 when a small group of believers gathered in a living room with a simple conviction: that the Bible, faithfully preached and carefully applied, is sufficient for all of life. What started as twenty people has grown, by God's grace, into a congregation of over 600 members and regular attenders.</p>
+              <p style="font-size:1.1rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1.5rem;">The name "Cruciform" reflects our theology and our ambition: we want every aspect of church life to be shaped by the cross. We are convinced that the Gospel of Jesus Christ — His perfect life, atoning death, and bodily resurrection — is not just the entry point of the Christian life but its ongoing power and pattern.</p>
+              <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--text-primary);margin-bottom:1rem;margin-top:2.5rem;">Our Mission</h2>
+              <div style="background:rgba(139,0,0,0.06);border-left:4px solid var(--crimson-mid);padding:1.5rem;border-radius:0 2px 2px 0;margin-bottom:1.5rem;">
+                <p style="font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;color:var(--text-primary);line-height:1.5;">"To glorify God by making and maturing disciples of Jesus Christ through the ministry of His Word."</p>
+              </div>
+              <p style="font-size:1.1rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1.5rem;">We pursue this mission through expository preaching, biblical counseling, Gospel-centered small groups, and active engagement with both our local community and the global Church through our mission partners.</p>
+              <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--text-primary);margin-bottom:1rem;margin-top:2.5rem;">Our Values</h2>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;">
+                <div style="padding:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:2px;">
+                  <div style="font-size:1.5rem;margin-bottom:0.75rem;">📖</div>
+                  <h4 style="font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Scripture</h4>
+                  <p style="font-size:0.9rem;color:var(--text-secondary);">God's Word is our supreme authority in all matters of faith and practice.</p>
+                </div>
+                <div style="padding:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:2px;">
+                  <div style="font-size:1.5rem;margin-bottom:0.75rem;">✝</div>
+                  <h4 style="font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Gospel</h4>
+                  <p style="font-size:0.9rem;color:var(--text-secondary);">The cross-centered Gospel shapes our identity, community, and mission.</p>
+                </div>
+                <div style="padding:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:2px;">
+                  <div style="font-size:1.5rem;margin-bottom:0.75rem;">🤝</div>
+                  <h4 style="font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Community</h4>
+                  <p style="font-size:0.9rem;color:var(--text-secondary);">Authentic, grace-filled fellowship where believers carry one another's burdens.</p>
+                </div>
+                <div style="padding:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:2px;">
+                  <div style="font-size:1.5rem;margin-bottom:0.75rem;">🌍</div>
+                  <h4 style="font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Mission</h4>
+                  <p style="font-size:0.9rem;color:var(--text-secondary);">Making disciples locally and supporting global Gospel advancement.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================== BELIEFS PAGE ======================== -->
+    <div class="page" id="page-beliefs">
+      <div style="padding-top:80px;">
+        <div style="background:var(--bg-secondary);padding:4rem 0;text-align:center;border-bottom:1px solid var(--border);">
+          <div class="container">
+            <p class="section-label">What We Believe</p>
+            <h1 class="section-title">Statement of Faith</h1>
+            <div class="divider divider--center"></div>
+            <p class="section-subtitle" style="margin:0 auto;">Cruciform Church holds to the historic Reformed faith as summarized in the Westminster Confession of Faith and the 1689 London Baptist Confession, with the Holy Scriptures as our supreme standard.</p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container" style="max-width:800px;">
+            <div class="faith-accordion">
+              <div class="faith-item open">
+                <div class="faith-header" onclick="toggleFaith(this)">
+                  <div class="faith-header__left"><span class="faith-header__num">I.</span><h3>The Holy Scriptures</h3></div>
+                  <div class="faith-toggle">−</div>
+                </div>
+                <div class="faith-body">
+                  <p>We believe the sixty-six books of the Old and New Testaments are the inspired, inerrant, and infallible Word of God — the complete, authoritative, and sufficient rule for all matters of faith, life, and practice. God the Holy Spirit moved human authors so that their words are truly the words of God (2 Tim. 3:16–17; 2 Pet. 1:20–21).</p>
+                  <div class="ref">Key References: 2 Timothy 3:16–17 · 2 Peter 1:20–21 · Psalm 19:7–11 · John 17:17</div>
+                </div>
+              </div>
+              <div class="faith-item">
+                <div class="faith-header" onclick="toggleFaith(this)">
+                  <div class="faith-header__left"><span class="faith-header__num">II.</span><h3>The Triune God</h3></div>
+                  <div class="faith-toggle">+</div>
+                </div>
+                <div class="faith-body">
+                  <p>We believe in one God, eternally existing in three co-equal Persons — Father, Son, and Holy Spirit — each fully and completely God, yet one in essence, glory, and nature. The Triune God is the creator, sustainer, and sovereign Lord of all creation.</p>
+                  <div class="ref">Key References: Deuteronomy 6:4 · Matthew 28:19 · 2 Corinthians 13:14 · John 1:1–3</div>
+                </div>
+              </div>
+              <div class="faith-item">
+                <div class="faith-header" onclick="toggleFaith(this)">
+                  <div class="faith-header__left"><span class="faith-header__num">III.</span><h3>Jesus Christ — His Person &amp; Work</h3></div>
+                  <div class="faith-toggle">+</div>
+                </div>
+                <div class="faith-body">
+                  <p>We believe that Jesus Christ is the eternal Son of God, who became man (without ceasing to be God) by being conceived of the Holy Spirit and born of the virgin Mary. He lived a perfectly righteous life, died as a substitutionary atonement for the sins of His people, rose bodily from the dead on the third day, ascended to the right hand of the Father, and will return visibly and bodily to judge the living and the dead.</p>
+                  <div class="ref">Key References: John 1:1, 14 · Isaiah 53 · Romans 3:21–26 · 1 Corinthians 15:1–8</div>
+                </div>
+              </div>
+              <div class="faith-item">
+                <div class="faith-header" onclick="toggleFaith(this)">
+                  <div class="faith-header__left"><span class="faith-header__num">IV.</span><h3>The Holy Spirit</h3></div>
+                  <div class="faith-toggle">+</div>
+                </div>
+                <div class="faith-body">
+                  <p>We believe the Holy Spirit is the third Person of the Trinity, co-equal and co-eternal with the Father and the Son. He convicts the world of sin, righteousness, and judgment; regenerates, indwells, baptizes, seals, and sanctifies every true believer; and produces the fruit of godliness in their lives.</p>
+                  <div class="ref">Key References: John 16:8–11 · Romans 8:9–17 · Galatians 5:22–23 · Ephesians 1:13–14</div>
+                </div>
+              </div>
+              <div class="faith-item">
+                <div class="faith-header" onclick="toggleFaith(this)">
+                  <div class="faith-header__left"><span class="faith-header__num">V.</span><h3>Salvation by Grace Through Faith</h3></div>
+                  <div class="faith-toggle">+</div>
+                </div>
+                <div class="faith-body">
+                  <p>We believe that salvation is entirely by God's sovereign grace, through faith alone, in Christ alone, to the glory of God alone. Salvation includes regeneration, justification, adoption, sanctification, and glorification — all secured by Christ's obedient life and atoning death, applied by the Holy Spirit, and received through repentance and faith.</p>
+                  <div class="ref">Key References: Ephesians 2:8–9 · Romans 3:21–31 · John 3:3–8 · Titus 3:5–7</div>
+                </div>
+              </div>
+              <div class="faith-item">
+                <div class="faith-header" onclick="toggleFaith(this)">
+                  <div class="faith-header__left"><span class="faith-header__num">VI.</span><h3>The Church</h3></div>
+                  <div class="faith-toggle">+</div>
+                </div>
+                <div class="faith-body">
+                  <p>We believe the universal Church comprises all true believers in every age and nation. The local church is an assembly of baptized believers, voluntarily gathered under the authority of Christ and His Word, committed to the preaching of the Gospel, the right administration of baptism and the Lord's Supper, and the exercise of biblical church discipline.</p>
+                  <div class="ref">Key References: Matthew 16:18 · Ephesians 4:11–16 · Acts 2:41–47 · Hebrews 10:24–25</div>
+                </div>
+              </div>
+              <div class="faith-item">
+                <div class="faith-header" onclick="toggleFaith(this)">
+                  <div class="faith-header__left"><span class="faith-header__num">VII.</span><h3>Last Things</h3></div>
+                  <div class="faith-toggle">+</div>
+                </div>
+                <div class="faith-body">
+                  <p>We believe in the personal, visible, bodily return of Jesus Christ, the bodily resurrection of all the dead, the final judgment of all people, and the eternal blessedness of the redeemed and eternal punishment of the wicked. We await a new heaven and new earth where righteousness dwells.</p>
+                  <div class="ref">Key References: Acts 1:11 · 1 Thessalonians 4:13–18 · Revelation 20–22 · John 5:28–29</div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:2rem;text-align:center;">
+              <button class="btn btn--outline" onclick="showToast('📄 Downloading full Statement of Faith PDF...','info')">Download Full PDF</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================== LEADERSHIP PAGE ======================== -->
+    <div class="page" id="page-leadership">
+      <div style="padding-top:80px;">
+        <div style="background:var(--bg-secondary);padding:4rem 0;text-align:center;border-bottom:1px solid var(--border);">
+          <div class="container">
+            <p class="section-label">Meet the Team</p>
+            <h1 class="section-title">Our Leadership</h1>
+            <div class="divider divider--center"></div>
+            <p class="section-subtitle" style="margin:0 auto;">Cruciform Church is led by a plurality of qualified elders committed to shepherding God's flock with faithfulness, humility, and love.</p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container">
+            <p class="section-label">Elders &amp; Pastors</p>
+            <h2 class="section-title">Elder Board</h2>
+            <div class="divider"></div>
+            <div class="team-grid">
+              <div class="team-card">
+                <div class="team-card__image">
+                  <div class="team-card__image-placeholder">
+                    <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="28" r="18" fill="#8B0000" opacity="0.3"/><rect x="10" y="55" width="60" height="25" rx="4" fill="#8B0000" opacity="0.2"/></svg>
+                  </div>
+                  <div class="team-card__overlay"></div>
+                </div>
+                <div class="team-card__body">
+                  <div class="team-card__name">Pastor John Williams</div>
+                  <div class="team-card__role">Senior Pastor / Elder</div>
+                  <div class="team-card__bio">M.Div., Reformed Theological Seminary. John has served Cruciform Church since its founding in 2008 and is passionate about expository preaching and biblical counseling.</div>
+                </div>
+              </div>
+              <div class="team-card">
+                <div class="team-card__image">
+                  <div class="team-card__image-placeholder">
+                    <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="28" r="18" fill="#8B0000" opacity="0.3"/><rect x="10" y="55" width="60" height="25" rx="4" fill="#8B0000" opacity="0.2"/></svg>
+                  </div>
+                  <div class="team-card__overlay"></div>
+                </div>
+                <div class="team-card__body">
+                  <div class="team-card__name">Pastor Mark Davis</div>
+                  <div class="team-card__role">Associate Pastor / Elder</div>
+                  <div class="team-card__bio">Th.M., The Master's Seminary. Mark oversees small groups, discipleship, and theological training. He joined the staff in 2014.</div>
+                </div>
+              </div>
+              <div class="team-card">
+                <div class="team-card__image">
+                  <div class="team-card__image-placeholder">
+                    <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="28" r="18" fill="#8B0000" opacity="0.3"/><rect x="10" y="55" width="60" height="25" rx="4" fill="#8B0000" opacity="0.2"/></svg>
+                  </div>
+                  <div class="team-card__overlay"></div>
+                </div>
+                <div class="team-card__body">
+                  <div class="team-card__name">Elder Thomas Reed</div>
+                  <div class="team-card__role">Ruling Elder</div>
+                  <div class="team-card__bio">Thomas is a high school Bible teacher who serves as a ruling elder. He leads the apologetics ministry and men's discipleship.</div>
+                </div>
+              </div>
+              <div class="team-card">
+                <div class="team-card__image">
+                  <div class="team-card__image-placeholder">
+                    <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="28" r="18" fill="#8B0000" opacity="0.3"/><rect x="10" y="55" width="60" height="25" rx="4" fill="#8B0000" opacity="0.2"/></svg>
+                  </div>
+                  <div class="team-card__overlay"></div>
+                </div>
+                <div class="team-card__body">
+                  <div class="team-card__name">Elder Samuel Park</div>
+                  <div class="team-card__role">Ruling Elder</div>
+                  <div class="team-card__bio">Samuel oversees the deacon ministry and facilities. He has been a member of Cruciform Church since 2010 and an elder since 2018.</div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:3rem;">
+              <p class="section-label">Support Staff</p>
+              <h2 class="section-title">Ministry Staff</h2>
+              <div class="divider"></div>
+              <div class="team-grid">
+                <div class="team-card">
+                  <div class="team-card__body" style="padding:1.5rem;">
+                    <div style="font-size:2rem;margin-bottom:0.75rem;">🎵</div>
+                    <div class="team-card__name">Sarah Thompson</div>
+                    <div class="team-card__role">Worship Director</div>
+                    <div class="team-card__bio">B.Mus., leading our congregation-led worship with theological depth and musical excellence.</div>
+                  </div>
+                </div>
+                <div class="team-card">
+                  <div class="team-card__body" style="padding:1.5rem;">
+                    <div style="font-size:2rem;margin-bottom:0.75rem;">👶</div>
+                    <div class="team-card__name">Rachel Green</div>
+                    <div class="team-card__role">Children's Ministry Director</div>
+                    <div class="team-card__bio">Developing and overseeing all children's programming with gospel-rich, age-appropriate curricula.</div>
+                  </div>
+                </div>
+                <div class="team-card">
+                  <div class="team-card__body" style="padding:1.5rem;">
+                    <div style="font-size:2rem;margin-bottom:0.75rem;">🌍</div>
+                    <div class="team-card__name">James Monroe</div>
+                    <div class="team-card__role">Missions Coordinator</div>
+                    <div class="team-card__bio">Connecting the congregation to our 8 mission partners and coordinating short-term mission trips.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================== SERMONS PAGE ======================== -->
+    <div class="page" id="page-sermons">
+      <div style="padding-top:80px;">
+        <div style="background:var(--bg-secondary);padding:4rem 0;text-align:center;border-bottom:1px solid var(--border);">
+          <div class="container">
+            <p class="section-label">Preach the Word</p>
+            <h1 class="section-title">Sermons &amp; Media</h1>
+            <div class="divider divider--center"></div>
+            <p class="section-subtitle" style="margin:0 auto;">Browse our full sermon library — expository messages through books of the Bible, topical series, and special events. All freely available.</p>
+          </div>
+        </div>
+        <section class="section sermons-section">
+          <div class="container">
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:2rem;">
+              <div class="sermon-filters" style="margin-top:0;">
+                <button class="filter-btn active" onclick="filterSermons(this,'all')">All</button>
+                <button class="filter-btn" onclick="filterSermons(this,'romans')">Romans</button>
+                <button class="filter-btn" onclick="filterSermons(this,'philippians')">Philippians</button>
+                <button class="filter-btn" onclick="filterSermons(this,'special')">Special Series</button>
+                <button class="filter-btn" onclick="filterSermons(this,'sunday-school')">Sunday School</button>
+              </div>
+              <div style="display:flex;gap:0.75rem;">
+                <input type="text" placeholder="Search sermons..." style="padding:0.45rem 0.9rem;background:var(--bg-card);border:1px solid var(--border);border-radius:2px;color:var(--text-primary);font-family:'Crimson Pro',serif;font-size:0.95rem;" oninput="searchSermons(this)" />
+              </div>
+            </div>
+            <div class="sermons-grid" id="sermonsGrid">
+              <!-- Sermons rendered here -->
+            </div>
+            <div style="text-align:center;margin-top:2rem;">
+              <button class="btn btn--outline" onclick="showToast('📚 Loading more sermons...','info')">Load More Sermons</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================== MINISTRIES PAGE ======================== -->
+    <div class="page" id="page-ministries">
+      <div style="padding-top:80px;">
+        <div style="background:var(--bg-secondary);padding:4rem 0;text-align:center;border-bottom:1px solid var(--border);">
+          <div class="container">
+            <p class="section-label">Connect &amp; Serve</p>
+            <h1 class="section-title">Our Ministries</h1>
+            <div class="divider divider--center"></div>
+            <p class="section-subtitle" style="margin:0 auto;">Find your place in the body of Christ through one of our many Gospel-centered ministries.</p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container">
+            <div class="ministries-grid">
+              <div class="ministry-card"><div class="ministry-card__icon">👶</div><h3 class="ministry-card__title">Children's Ministry</h3><p class="ministry-card__desc">Birth through 5th grade. Gospel-rich curricula, trained teachers, and a secure check-in system. We partner with parents to raise children who know and love Christ.</p><a href="#ministries" class="ministry-card__link">Learn More →</a></div>
+              <div class="ministry-card"><div class="ministry-card__icon">🎒</div><h3 class="ministry-card__title">Youth Ministry</h3><p class="ministry-card__desc">Middle and High School students engaging seriously with Scripture, building real friendships, and learning to apply the Gospel to every area of life.</p><a href="#ministries" class="ministry-card__link">Learn More →</a></div>
+              <div class="ministry-card"><div class="ministry-card__icon">👨</div><h3 class="ministry-card__title">Men's Ministry</h3><p class="ministry-card__desc">Monthly breakfasts, annual retreat, and weekly accountability groups for men growing in godliness, leadership, and Gospel-centered brotherhood.</p><a href="#ministries" class="ministry-card__link">Learn More →</a></div>
+              <div class="ministry-card"><div class="ministry-card__icon">👩</div><h3 class="ministry-card__title">Women's Ministry</h3><p class="ministry-card__desc">Bible studies, retreats, and mentoring relationships helping women grow in grace, love Scripture, and encourage one another in the faith.</p><a href="#ministries" class="ministry-card__link">Learn More →</a></div>
+              <div class="ministry-card"><div class="ministry-card__icon">🤝</div><h3 class="ministry-card__title">Small Groups</h3><p class="ministry-card__desc">12 community groups meeting weekly in homes across the city. Bible study, prayer, fellowship, and practical care for one another through life's highs and lows.</p><a href="#ministries" class="ministry-card__link">Find a Group →</a></div>
+              <div class="ministry-card"><div class="ministry-card__icon">🌍</div><h3 class="ministry-card__title">Missions &amp; Outreach</h3><p class="ministry-card__desc">Supporting 8 missionary families in Africa, Asia, Eastern Europe, and South America, plus local outreach through community service and evangelism training.</p><a href="#ministries" class="ministry-card__link">Learn More →</a></div>
+              <div class="ministry-card"><div class="ministry-card__icon">💙</div><h3 class="ministry-card__title">Biblical Counseling</h3><p class="ministry-card__desc">Certified biblical counselors walking alongside individuals and couples through life's most difficult challenges with the hope and wisdom of God's Word.</p><a href="#ministries" class="ministry-card__link">Get Help →</a></div>
+              <div class="ministry-card"><div class="ministry-card__icon">🎵</div><h3 class="ministry-card__title">Worship Ministry</h3><p class="ministry-card__desc">Join our choir, instrumental ensemble, or sound and media team to serve the congregation in corporate worship that exalts Christ and edifies the body.</p><a href="#ministries" class="ministry-card__link">Serve →</a></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================== EVENTS PAGE ======================== -->
+    <div class="page" id="page-events">
+      <div style="padding-top:80px;">
+        <div style="background:var(--bg-secondary);padding:4rem 0;text-align:center;border-bottom:1px solid var(--border);">
+          <div class="container">
+            <p class="section-label">Community Life</p>
+            <h1 class="section-title">Events &amp; Calendar</h1>
+            <div class="divider divider--center"></div>
+          </div>
+        </div>
+        <section class="section events-section">
+          <div class="container">
+            <div class="events-layout">
+              <div>
+                <div class="event-card"><div class="event-card__date"><span class="event-card__day">15</span><span class="event-card__month">Mar</span></div><div class="event-card__content"><h4>Spring Theology Conference</h4><div class="event-card__meta">📍 Main Sanctuary · 9:00 AM – 5:00 PM · Free (Registration Required)</div><p class="event-card__desc">A full-day conference on the doctrine of salvation. Guest speakers include pastors from three Reformed churches. Continental breakfast and lunch provided.</p><div style="margin-top:0.75rem;display:flex;gap:0.5rem;"><button class="btn btn--primary" style="padding:0.4rem 1rem;font-size:0.65rem;" onclick="showToast('📋 Registration opened!','success')">Register</button><button class="btn btn--outline" style="padding:0.4rem 1rem;font-size:0.65rem;" onclick="showToast('📅 Added to calendar!','success')">Add to Calendar</button></div></div></div>
+                <div class="event-card"><div class="event-card__date"><span class="event-card__day">22</span><span class="event-card__month">Mar</span></div><div class="event-card__content"><h4>Men's Scripture &amp; Fellowship Breakfast</h4><div class="event-card__meta">📍 Fellowship Hall · 7:30 AM · Free</div><p class="event-card__desc">Monthly gathering for men. This month's study: Proverbs 31 and the call to biblical manhood. All men 18+ welcome.</p><div style="margin-top:0.75rem;"><button class="btn btn--primary" style="padding:0.4rem 1rem;font-size:0.65rem;" onclick="showToast('📋 Signed up!','success')">RSVP</button></div></div></div>
+                <div class="event-card"><div class="event-card__date"><span class="event-card__day">29</span><span class="event-card__month">Mar</span></div><div class="event-card__content"><h4>Women's Spring Bible Study Kickoff</h4><div class="event-card__meta">📍 Room 201 · 10:00 AM · $10 (Workbook)</div><p class="event-card__desc">Beginning an 8-week study through the book of Ruth. Childcare provided. Register to secure your spot and workbook.</p><div style="margin-top:0.75rem;"><button class="btn btn--primary" style="padding:0.4rem 1rem;font-size:0.65rem;" onclick="showToast('📋 Registered!','success')">Register</button></div></div></div>
+                <div class="event-card"><div class="event-card__date"><span class="event-card__day">5</span><span class="event-card__month">Apr</span></div><div class="event-card__content"><h4>Good Friday Service</h4><div class="event-card__meta">📍 Main Sanctuary · 7:00 PM · Free</div><p class="event-card__desc">A solemn service of Scripture, music, and the Lord's Supper meditating on the passion of Christ. All are welcome.</p></div></div>
+                <div class="event-card"><div class="event-card__date"><span class="event-card__day">7</span><span class="event-card__month">Apr</span></div><div class="event-card__content"><h4>Easter Sunday Celebration Services</h4><div class="event-card__meta">📍 Main Sanctuary · 9:00 AM &amp; 11:00 AM · Free</div><p class="event-card__desc">Celebrate the risen Christ with special music, expository preaching, and baptisms. Bring your family and invite your neighbors!</p></div></div>
+              </div>
+              <div class="event-sidebar">
+                <div class="sidebar-widget">
+                  <h3>🕐 Service Times</h3>
+                  <div class="service-time"><span class="service-time__day">Sunday Morning</span><div><div class="service-time__time">9:00 AM</div><div class="service-time__type">Worship Service</div></div></div>
+                  <div class="service-time"><span class="service-time__day">Sunday Morning</span><div><div class="service-time__time">11:00 AM</div><div class="service-time__type">Worship Service</div></div></div>
+                  <div class="service-time"><span class="service-time__day">Wednesday</span><div><div class="service-time__time">7:00 PM</div><div class="service-time__type">Prayer &amp; Bible Study</div></div></div>
+                </div>
+                <div class="sidebar-widget">
+                  <h3>📅 Subscribe to Calendar</h3>
+                  <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:1rem;">Never miss a church event. Subscribe to our Google or Apple calendar for automatic updates.</p>
+                  <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                    <button class="btn btn--outline" style="justify-content:center;" onclick="showToast('📅 Opening Google Calendar subscription...','info')">Google Calendar</button>
+                    <button class="btn btn--outline" style="justify-content:center;" onclick="showToast('📅 Downloading .ics file...','info')">Apple Calendar (.ics)</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================== RESOURCES PAGE ======================== -->
+    <div class="page" id="page-resources">
+      <div style="padding-top:80px;">
+        <div style="background:var(--bg-secondary);padding:4rem 0;text-align:center;border-bottom:1px solid var(--border);">
+          <div class="container">
+            <p class="section-label">Grow in Grace</p>
+            <h1 class="section-title">Resources &amp; Articles</h1>
+            <div class="divider divider--center"></div>
+          </div>
+        </div>
+        <section class="section resources-section">
+          <div class="container">
+            <div class="resources-grid">
+              <div class="resource-card"><div class="resource-card__thumb">📰</div><div class="resource-card__body"><div class="resource-card__category">Theology</div><h3 class="resource-card__title">Why Expository Preaching Matters</h3><p class="resource-card__excerpt">When Scripture itself drives the sermon, the congregation hears God's voice, not the preacher's preferences. Here's why verse-by-verse exposition is the most faithful method of preaching.</p><div class="resource-card__footer"><span>Pastor John Williams</span><span>Mar 1, 2025</span></div></div></div>
+              <div class="resource-card"><div class="resource-card__thumb">📚</div><div class="resource-card__body"><div class="resource-card__category">Devotional</div><h3 class="resource-card__title">Morning with the Psalms: A 30-Day Guide</h3><p class="resource-card__excerpt">A practical devotional guide walking you through thirty of the Psalms with reflection questions, prayers, and cross-references to the New Testament fulfillments.</p><div class="resource-card__footer"><span>Elder Thomas Reed</span><span>Feb 20, 2025</span></div></div></div>
+              <div class="resource-card"><div class="resource-card__thumb">🙏</div><div class="resource-card__body"><div class="resource-card__category">Prayer</div><h3 class="resource-card__title">The Lord's Prayer as a Pattern for Daily Prayer</h3><p class="resource-card__excerpt">Matthew 6:9–13 gives us not just a prayer to recite but a template for all of our praying. This article unpacks each petition and offers practical application.</p><div class="resource-card__footer"><span>Pastor Mark Davis</span><span>Feb 14, 2025</span></div></div></div>
+              <div class="resource-card"><div class="resource-card__thumb">📖</div><div class="resource-card__body"><div class="resource-card__category">Bible Study</div><h3 class="resource-card__title">How to Study the Bible: An Inductive Approach</h3><p class="resource-card__excerpt">A beginner's guide to inductive Bible study — observation, interpretation, and application — with worked examples from the book of James.</p><div class="resource-card__footer"><span>Rachel Green</span><span>Feb 8, 2025</span></div></div></div>
+              <div class="resource-card"><div class="resource-card__thumb">✝</div><div class="resource-card__body"><div class="resource-card__category">Gospel</div><h3 class="resource-card__title">What Is the Gospel? A Clear, Biblical Answer</h3><p class="resource-card__excerpt">The word "gospel" means "good news," but good news about what exactly? This foundational article walks through the key elements of the Christian Gospel.</p><div class="resource-card__footer"><span>Pastor John Williams</span><span>Jan 28, 2025</span></div></div></div>
+              <div class="resource-card"><div class="resource-card__thumb">🎓</div><div class="resource-card__body"><div class="resource-card__category">Discipleship</div><h3 class="resource-card__title">Recommended Reading List: 2025 Edition</h3><p class="resource-card__excerpt">Our elders have compiled their top 20 book recommendations for theology, spiritual formation, Bible study, marriage, parenting, and Christian living.</p><div class="resource-card__footer"><span>Elder Board</span><span>Jan 1, 2025</span></div></div></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================== PRAYER PAGE ======================== -->
+    <div class="page" id="page-prayer">
+      <div style="padding-top:80px;">
+        <div style="background:var(--bg-secondary);padding:4rem 0;text-align:center;border-bottom:1px solid var(--border);">
+          <div class="container">
+            <p class="section-label">Corporate Prayer</p>
+            <h1 class="section-title">Prayer Wall</h1>
+            <div class="divider divider--center"></div>
+            <p class="section-subtitle" style="margin:0 auto;">"Pray without ceasing." — 1 Thessalonians 5:17. Submit a prayer request or stand in faith for others' needs.</p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container">
+            <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:3rem;align-items:start;">
+              <div>
+                <h2 class="section-title" style="font-size:1.5rem;">Submit a Request</h2>
+                <div class="divider"></div>
+                <div class="contact-form">
+                  <div class="form-group">
+                    <label class="form-label">Your Name (optional)</label>
+                    <input type="text" class="form-input" placeholder="Anonymous" id="prayerName" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Prayer Request</label>
+                    <textarea class="form-input" rows="5" placeholder="Share your prayer request..." id="prayerRequest" style="resize:vertical;"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label style="display:flex;gap:0.5rem;align-items:center;cursor:pointer;font-size:0.9rem;color:var(--text-secondary);">
+                      <input type="checkbox" id="prayerPublic" style="accent-color:var(--crimson-mid);" /> Post publicly on the prayer wall
+                    </label>
+                  </div>
+                  <button class="btn btn--primary" onclick="submitPrayerRequest()">🙏 Submit Prayer Request</button>
+                </div>
+              </div>
+              <div>
+                <h2 class="section-title" style="font-size:1.5rem;">Community Prayers</h2>
+                <div class="divider"></div>
+                <div id="prayerWall">
+                  <div class="prayer-card"><p class="prayer-card__text">"Please pray for my family as we navigate a difficult season of illness. We trust in God's sovereignty but need strength."</p><div class="prayer-card__meta">— Sarah M. · Mar 3, 2025 · <span style="color:var(--crimson-soft);">🙏 24 praying</span></div></div>
+                  <div class="prayer-card"><p class="prayer-card__text">"Pray for our mission team departing for Uganda on March 20. Pray for safety, open hearts, and a fruitful Gospel witness."</p><div class="prayer-card__meta">— James Monroe · Mar 2, 2025 · <span style="color:var(--crimson-soft);">🙏 41 praying</span></div></div>
+                  <div class="prayer-card"><p class="prayer-card__text">"Seeking wisdom and God's guidance regarding a major career decision. Pray I would have the mind of Christ."</p><div class="prayer-card__meta">— Anonymous · Mar 1, 2025 · <span style="color:var(--crimson-soft);">🙏 18 praying</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================== CONTACT PAGE ======================== -->
+    <div class="page" id="page-contact">
+      <div style="padding-top:80px;">
+        <div style="background:var(--bg-secondary);padding:4rem 0;text-align:center;border-bottom:1px solid var(--border);">
+          <div class="container">
+            <p class="section-label">Get in Touch</p>
+            <h1 class="section-title">Contact Us</h1>
+            <div class="divider divider--center"></div>
+            <p class="section-subtitle" style="margin:0 auto;">We'd love to hear from you. Whether you're new, have questions about the faith, or need pastoral care — we're here.</p>
+          </div>
+        </div>
+        <section class="section" id="contact">
+          <div class="container">
+            <div class="contact-layout">
+              <div class="contact-info">
+                <div class="contact-item">
+                  <div class="contact-item__icon">📍</div>
+                  <div><div class="contact-item__label">Address</div><div class="contact-item__value">123 Faith Avenue<br>Your City, State 00000</div></div>
+                </div>
+                <div class="contact-item">
+                  <div class="contact-item__icon">📞</div>
+                  <div><div class="contact-item__label">Phone</div><div class="contact-item__value">(555) 123-4567</div></div>
+                </div>
+                <div class="contact-item">
+                  <div class="contact-item__icon">✉️</div>
+                  <div><div class="contact-item__label">Email</div><div class="contact-item__value">info@cruciformchurch.org</div></div>
+                </div>
+                <div class="contact-item">
+                  <div class="contact-item__icon">🕐</div>
+                  <div><div class="contact-item__label">Office Hours</div><div class="contact-item__value">Monday–Friday<br>9:00 AM – 5:00 PM</div></div>
+                </div>
+                <div class="social-links">
+                  <a href="#contact" class="social-link" title="Facebook">f</a>
+                  <a href="#contact" class="social-link" title="YouTube" style="font-size:0.75rem;">▶</a>
+                  <a href="#contact" class="social-link" title="Instagram">✦</a>
+                  <a href="#contact" class="social-link" title="Twitter / X">𝕏</a>
+                  <a href="#contact" class="social-link" title="Spotify" style="font-size:0.75rem;">♫</a>
+                </div>
+                <div class="map-container">
+                  <div class="map-placeholder-text">
+                    <h4>Interactive Map</h4>
+                    <p>Integrate Google Maps API here</p>
+                    <button class="btn btn--outline" style="margin-top:1rem;" onclick="showToast('🗺️ Opening map...','info')">View on Google Maps</button>
+                  </div>
+                </div>
+              </div>
+              <div class="contact-form">
+                <h2 class="section-title" style="font-size:1.6rem;margin-bottom:0.5rem;">Send a Message</h2>
+                <div class="divider"></div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">First Name *</label>
+                    <input type="text" class="form-input" id="contactFirst" placeholder="John" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Last Name *</label>
+                    <input type="text" class="form-input" id="contactLast" placeholder="Smith" required />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address *</label>
+                  <input type="email" class="form-input" id="contactEmail" placeholder="john@example.com" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number</label>
+                  <input type="tel" class="form-input" id="contactPhone" placeholder="(555) 000-0000" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Subject</label>
+                  <select class="form-input" id="contactSubject">
+                    <option value="">Select a topic...</option>
+                    <option>General Inquiry</option>
+                    <option>New Visitor / First-Time Guest</option>
+                    <option>Prayer Request</option>
+                    <option>Pastoral Counseling</option>
+                    <option>Membership Information</option>
+                    <option>Volunteer / Serve</option>
+                    <option>Missions Inquiry</option>
+                    <option>Baptism</option>
+                    <option>Weddings &amp; Funerals</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Message *</label>
+                  <textarea class="form-input" id="contactMessage" rows="6" placeholder="How can we serve you?" required style="resize:vertical;"></textarea>
+                </div>
+                <div style="background:rgba(139,0,0,0.06);border:1px solid var(--border);border-radius:2px;padding:1rem;margin-bottom:1rem;">
+                  <p style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.4rem;">API Integration Ready</p>
+                  <p style="font-size:0.88rem;color:var(--text-secondary);">Connect this form to <strong style="color:var(--text-primary);">Formspree</strong>, <strong style="color:var(--text-primary);">EmailJS</strong>, or your own backend. Set the endpoint in <code style="color:var(--crimson-soft);">CONFIG.contactEndpoint</code>.</p>
+                </div>
+                <button class="btn btn--primary" onclick="submitContactForm()">Send Message ✉️</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__about">
+          <div class="footer__logo">
+            <svg viewBox="0 0 42 42" width="36" height="36" fill="none">
+              <rect x="17" y="4" width="8" height="34" rx="1" fill="#8B0000"/>
+              <rect x="4" y="14" width="34" height="8" rx="1" fill="#8B0000"/>
+              <rect x="19" y="6" width="4" height="30" rx="0.5" fill="#C9A84C" opacity="0.4"/>
+              <rect x="6" y="16" width="30" height="4" rx="0.5" fill="#C9A84C" opacity="0.4"/>
+            </svg>
+            <div>
+              <span style="font-family:'Cinzel',serif;font-weight:700;color:var(--text-primary);font-size:1rem;">Cruciform Church</span><br>
+              <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;color:var(--gold);">Word-Centered · Cross-Focused</span>
+            </div>
+          </div>
+          <p>A Reformed, evangelical congregation committed to the faithful preaching of God's Word, the making of disciples, and the glory of Jesus Christ — locally and to the ends of the earth.</p>
+          <div class="social-links">
+            <a href="#footer" class="social-link" title="Facebook">f</a>
+            <a href="#footer" class="social-link" title="YouTube" style="font-size:0.75rem;">▶</a>
+            <a href="#footer" class="social-link" title="Instagram">✦</a>
+            <a href="#footer" class="social-link" title="Twitter/X">𝕏</a>
+            <a href="#footer" class="social-link" title="Podcast" style="font-size:0.75rem;">♫</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4>Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="#home" onclick="showPage('home')">Home</a></li>
+            <li><a href="#about" onclick="showPage('about')">About Us</a></li>
+            <li><a href="#beliefs" onclick="showPage('beliefs')">Statement of Faith</a></li>
+            <li><a href="#leadership" onclick="showPage('leadership')">Leadership</a></li>
+            <li><a href="#sermons" onclick="showPage('sermons')">Sermons</a></li>
+            <li><a href="#give" onclick="openGiveModal()">Give Online</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Ministries</h4>
+          <ul class="footer__links">
+            <li><a href="#ministries" onclick="showPage('ministries')">Children's Ministry</a></li>
+            <li><a href="#ministries" onclick="showPage('ministries')">Youth Ministry</a></li>
+            <li><a href="#ministries" onclick="showPage('ministries')">Men's Ministry</a></li>
+            <li><a href="#ministries" onclick="showPage('ministries')">Women's Ministry</a></li>
+            <li><a href="#ministries" onclick="showPage('ministries')">Small Groups</a></li>
+            <li><a href="#ministries" onclick="showPage('ministries')">Missions</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Connect</h4>
+          <ul class="footer__links">
+            <li><a href="#contact" onclick="showPage('contact')">Contact Us</a></li>
+            <li><a href="#events" onclick="showPage('events')">Upcoming Events</a></li>
+            <li><a href="#prayer" onclick="showPage('prayer')">Prayer Requests</a></li>
+            <li><a href="#resources" onclick="showPage('resources')">Resources</a></li>
+            <li><a href="#newsletter">Newsletter</a></li>
+            <li><a href="#give" onclick="openGiveModal()">Online Giving</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__copyright">
+          © 2025 Cruciform Church · 123 Faith Avenue · All Rights Reserved
+        </div>
+        <div class="footer__bottom-links">
+          <a href="#privacy">Privacy Policy</a>
+          <a href="#terms">Terms of Use</a>
+          <a href="#accessibility">Accessibility</a>
+          <a href="#sitemap">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================================================================
+       JAVASCRIPT
+  ================================================================ -->
+  <script>
+    /* ============================================================
+       CONFIG — EXTENSIBILITY HUB
+       Replace placeholder values with your real API keys/endpoints
+    ============================================================ */
+    const CONFIG = {
+      // Church Identity
+      church: {
+        name: 'Cruciform Church',
+        tagline: 'Word-Centered, Cross-Focused',
+        address: '123 Faith Avenue, Your City, ST 00000',
+        phone: '(555) 123-4567',
+        email: 'info@cruciformchurch.org',
+      },
+
+      // Donation Processing
+      // Supported: 'stripe' | 'paypal' | 'pushpay' | 'demo'
+      giving: {
+        provider: 'demo', // Change to 'stripe', 'paypal', or 'pushpay'
+        stripe: {
+          publishableKey: 'pk_live_YOUR_STRIPE_KEY_HERE',
+          endpoint: 'https://your-server.com/api/donate',
+        },
+        paypal: {
+          clientId: 'YOUR_PAYPAL_CLIENT_ID',
+          currency: 'USD',
+        },
+        pushpay: {
+          merchantCode: 'YOUR_PUSHPAY_MERCHANT_CODE',
+          url: 'https://pushpay.com/g/YOUR_MERCHANT',
+        },
+      },
+
+      // Newsletter
+      // Supported: 'mailchimp' | 'convertkit' | 'formspree' | 'demo'
+      newsletter: {
+        provider: 'demo',
+        mailchimp: {
+          apiKey: 'YOUR_MAILCHIMP_API_KEY',
+          listId: 'YOUR_LIST_ID',
+          endpoint: 'https://your-server.com/api/newsletter',
+        },
+        convertkit: {
+          formId: 'YOUR_FORM_ID',
+          apiKey: 'YOUR_CONVERTKIT_API_KEY',
+        },
+        formspree: {
+          endpoint: 'https://formspree.io/f/YOUR_FORM_ID',
+        },
+      },
+
+      // Contact Form
+      // Supported: 'emailjs' | 'formspree' | 'custom' | 'demo'
+      contact: {
+        provider: 'demo',
+        formspree: {
+          endpoint: 'https://formspree.io/f/YOUR_FORM_ID',
+        },
+        emailjs: {
+          serviceId: 'YOUR_SERVICE_ID',
+          templateId: 'YOUR_TEMPLATE_ID',
+          userId: 'YOUR_USER_ID',
+        },
+        custom: {
+          endpoint: 'https://your-api.com/contact',
+          headers: {},
+        },
+      },
+
+      // Google Maps
+      maps: {
+        apiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
+        lat: 40.7128,
+        lng: -74.0060,
+        zoom: 15,
+      },
+
+      // Analytics
+      analytics: {
+        googleAnalyticsId: 'G-YOUR_GA_ID',
+        facebookPixelId: 'YOUR_FB_PIXEL_ID',
+      },
+
+      // Feature Flags — easily enable/disable features
+      features: {
+        liveStream: true,
+        prayerWall: true,
+        onlineGiving: true,
+        podcast: true,
+        bibleReadingPlan: true,
+        memberPortal: false, // Set to true when ready
+        onlineCommunity: false,
+      },
+    };
+
+    /* ============================================================
+       THEME MANAGEMENT
+    ============================================================ */
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('cruciform-theme', isDark ? 'light' : 'dark');
+      updateThemeIcon(isDark ? 'light' : 'dark');
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('themeIcon');
+      if (!icon) return;
+      if (theme === 'light') {
+        icon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
+      } else {
+        icon.innerHTML = `<circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none"/><line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2"/><line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2"/><line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2"/><line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2"/>`;
+      }
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('cruciform-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    /* ============================================================
+       NAVIGATION — SCROLL BEHAVIOR
+    ============================================================ */
+    const navbar = document.getElementById('navbar');
+    const topbar = document.getElementById('topbar');
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 80) {
+        navbar.classList.add('scrolled');
+        navbar.style.top = '0';
+        if (topbar) topbar.style.display = 'none';
+      } else {
+        navbar.classList.remove('scrolled');
+        if (topbar) topbar.style.display = '';
+      }
+      if (backToTop) {
+        backToTop.classList.toggle('visible', scrollY > 500);
+      }
+    }, { passive: true });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ============================================================
+       MOBILE MENU
+    ============================================================ */
+    let mobileOpen = false;
+
+    function toggleMobileMenu() {
+      mobileOpen = !mobileOpen;
+      const menu = document.getElementById('mobileMenu');
+      const burger = document.getElementById('hamburger');
+      menu.classList.toggle('open', mobileOpen);
+      burger.classList.toggle('open', mobileOpen);
+      document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    }
+
+    function closeMobileMenu() {
+      mobileOpen = false;
+      const menu = document.getElementById('mobileMenu');
+      const burger = document.getElementById('hamburger');
+      menu.classList.remove('open');
+      burger.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function toggleMobileDropdown(btn) {
+      const item = btn.closest('.mobile-nav-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.mobile-nav-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Close mobile menu on outside click
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('mobileMenu');
+      const burger = document.getElementById('hamburger');
+      if (mobileOpen && !menu.contains(e.target) && !burger.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
+    /* ============================================================
+       SPA PAGE ROUTING
+    ============================================================ */
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById('page-' + pageId);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Update URL hash
+        history.pushState(null, '', '#' + pageId);
+      }
+      // Initialize page-specific logic
+      if (pageId === 'sermons') renderSermons();
+    }
+
+    // Handle browser back/forward
+    window.addEventListener('popstate', () => {
+      const hash = location.hash.replace('#', '') || 'home';
+      const validPages = ['home','about','beliefs','leadership','sermons','ministries','events','resources','prayer','contact'];
+      if (validPages.includes(hash)) showPage(hash);
+    });
+
+    // Initial load
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = location.hash.replace('#', '') || 'home';
+      const validPages = ['home','about','beliefs','leadership','sermons','ministries','events','resources','prayer','contact'];
+      if (validPages.includes(hash)) showPage(hash);
+      renderSermons();
+      initFadeObserver();
+    });
+
+    /* ============================================================
+       SERMON DATA & RENDERING
+    ============================================================ */
+    const sermonData = [
+      { id:1, title:'The Gospel of God — Justification by Faith Alone', series:'Romans Series', part:42, preacher:'Pastor John Williams', passage:'Romans 3:21–31', date:'Mar 2, 2025', tags:['romans'], live:true },
+      { id:2, title:'The Peace That Surpasses Understanding', series:'Philippians Series', part:8, preacher:'Pastor Mark Davis', passage:'Philippians 4:4–9', date:'Feb 23, 2025', tags:['philippians'] },
+      { id:3, title:'Contending Earnestly for the Faith', series:'Apologetics Series', part:1, preacher:'Elder Thomas Reed', passage:'Jude 1:1–4', date:'Feb 16, 2025', tags:['special'] },
+      { id:4, title:'The Wrath of God Against Ungodliness', series:'Romans Series', part:41, preacher:'Pastor John Williams', passage:'Romans 1:18–32', date:'Feb 9, 2025', tags:['romans'] },
+      { id:5, title:'Rejoice in the Lord Always', series:'Philippians Series', part:7, preacher:'Pastor Mark Davis', passage:'Philippians 4:1–3', date:'Feb 2, 2025', tags:['philippians'] },
+      { id:6, title:'The Armor of God', series:'Ephesians Series', part:12, preacher:'Pastor John Williams', passage:'Ephesians 6:10–20', date:'Jan 26, 2025', tags:['special'] },
+    ];
+
+    let currentFilter = 'all';
+
+    function renderSermons(filter = currentFilter) {
+      const grid = document.getElementById('sermonsGrid');
+      if (!grid) return;
+      const filtered = filter === 'all' ? sermonData : sermonData.filter(s => s.tags.includes(filter));
+      grid.innerHTML = filtered.map(s => `
+        <div class="sermon-card">
+          <div class="sermon-card__media">
+            ${s.live ? `<div class="sermon-card__label"><span class="live-badge">Live This Sun</span></div>` : ''}
+            <button class="play-btn" onclick="showToast('🎧 Playing: ${s.title.substring(0,30)}...','info')">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+          <div class="sermon-card__body">
+            <div class="sermon-card__series">${s.series} · Part ${s.part}</div>
+            <h3 class="sermon-card__title">${s.title}</h3>
+            <div class="sermon-card__meta">
+              <span>${s.preacher}</span>
+              <span>${s.passage}</span>
+              <span>${s.date}</span>
+            </div>
+            <div class="sermon-card__actions">
+              <button class="btn btn--primary" onclick="showToast('🎧 Playing...','info')">Listen</button>
+              <button class="btn btn--outline" onclick="showToast('🎬 Opening video...','info')">Watch</button>
+              <button class="btn btn--outline" onclick="showToast('📄 Downloading notes...','info')">Notes</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterSermons(btn, filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSermons(filter);
+    }
+
+    function searchSermons(input) {
+      const q = input.value.toLowerCase();
+      const grid = document.getElementById('sermonsGrid');
+      if (!grid) return;
+      const filtered = sermonData.filter(s =>
+        s.title.toLowerCase().includes(q) ||
+        s.series.toLowerCase().includes(q) ||
+        s.preacher.toLowerCase().includes(q) ||
+        s.passage.toLowerCase().includes(q)
+      );
+      grid.innerHTML = filtered.map(s => `
+        <div class="sermon-card">
+          <div class="sermon-card__media">
+            <button class="play-btn" onclick="showToast('🎧 Playing: ${s.title.substring(0,25)}...','info')">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+          <div class="sermon-card__body">
+            <div class="sermon-card__series">${s.series}</div>
+            <h3 class="sermon-card__title">${s.title}</h3>
+            <div class="sermon-card__meta"><span>${s.preacher}</span><span>${s.passage}</span></div>
+            <div class="sermon-card__actions">
+              <button class="btn btn--primary" onclick="showToast('🎧 Playing...','info')">Listen</button>
+              <button class="btn btn--outline" onclick="showToast('🎬 Video...','info')">Watch</button>
+            </div>
+          </div>
+        </div>
+      `).join('') || '<p style="color:var(--text-muted);padding:2rem;text-align:center;">No sermons found matching your search.</p>';
+    }
+
+    /* ============================================================
+       FAITH ACCORDION
+    ============================================================ */
+    function toggleFaith(header) {
+      const item = header.closest('.faith-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faith-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faith-toggle').textContent = '+';
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        item.querySelector('.faith-toggle').textContent = '−';
+      }
+    }
+
+    /* ============================================================
+       GIVE MODAL
+    ============================================================ */
+    function openGiveModal() {
+      document.getElementById('giveModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeGiveModal() {
+      document.getElementById('giveModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('giveModal').addEventListener('click', function(e) {
+      if (e.target === this) closeGiveModal();
+    });
+
+    function selectAmount(btn, amount) {
+      // Handle modal amounts
+      const siblings = btn.closest('.give-amounts').querySelectorAll('.give-amount-btn');
+      siblings.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // Show/hide custom amount
+      const wrap = btn.closest('.give-amounts').nextElementSibling;
+      if (wrap && wrap.id && wrap.id.startsWith('customAmount')) {
+        wrap.style.display = amount === 'custom' ? 'block' : 'none';
+      }
+    }
+
+    async function processGift() {
+      const provider = CONFIG.giving.provider;
+      closeGiveModal();
+
+      if (provider === 'demo') {
+        showToast('🙏 Thank you for your generous gift! (Demo mode — configure CONFIG.giving to process real payments)', 'success');
+        return;
+      }
+
+      if (provider === 'stripe') {
+        // Load Stripe.js and process
+        showToast('💳 Redirecting to Stripe secure checkout...', 'info');
+        // Implementation:
+        // const stripe = Stripe(CONFIG.giving.stripe.publishableKey);
+        // const response = await fetch(CONFIG.giving.stripe.endpoint, { method:'POST', body: JSON.stringify({amount}) });
+        // const session = await response.json();
+        // stripe.redirectToCheckout({ sessionId: session.id });
+      }
+
+      if (provider === 'paypal') {
+        showToast('💳 Opening PayPal...', 'info');
+        // Load PayPal SDK and render buttons
+      }
+
+      if (provider === 'pushpay') {
+        window.open(CONFIG.giving.pushpay.url, '_blank');
+      }
+    }
+
+    /* ============================================================
+       NEWSLETTER SUBSCRIPTION
+    ============================================================ */
+    async function subscribeNewsletter() {
+      const emailInput = document.getElementById('newsletterEmail');
+      const email = emailInput ? emailInput.value.trim() : '';
+
+      if (!email || !/\S+@\S+\.\S+/.test(email)) {
+        showToast('⚠️ Please enter a valid email address.', 'error');
+        return;
+      }
+
+      const provider = CONFIG.newsletter.provider;
+
+      if (provider === 'demo') {
+        showToast('📧 Thank you for subscribing! (Demo mode — configure CONFIG.newsletter)', 'success');
+        if (emailInput) emailInput.value = '';
+        return;
+      }
+
+      if (provider === 'mailchimp' || provider === 'convertkit') {
+        try {
+          const endpoint = provider === 'mailchimp'
+            ? CONFIG.newsletter.mailchimp.endpoint
+            : `https://api.convertkit.com/v3/forms/${CONFIG.newsletter.convertkit.formId}/subscribe`;
+
+          const body = provider === 'mailchimp'
+            ? JSON.stringify({ email })
+            : JSON.stringify({ api_key: CONFIG.newsletter.convertkit.apiKey, email });
+
+          const res = await fetch(endpoint, { method:'POST', headers:{'Content-Type':'application/json'}, body });
+          if (res.ok) {
+            showToast('📧 You\'ve been subscribed! Welcome to the Cruciform family.', 'success');
+            if (emailInput) emailInput.value = '';
+          } else {
+            showToast('⚠️ Something went wrong. Please try again.', 'error');
+          }
+        } catch (err) {
+          showToast('⚠️ Connection error. Please try again.', 'error');
+        }
+      }
+
+      if (provider === 'formspree') {
+        const res = await fetch(CONFIG.newsletter.formspree.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        if (res.ok) showToast('📧 Subscribed successfully!', 'success');
+        else showToast('⚠️ Something went wrong.', 'error');
+        if (emailInput) emailInput.value = '';
+      }
+    }
+
+    /* ============================================================
+       CONTACT FORM
+    ============================================================ */
+    async function submitContactForm() {
+      const first   = document.getElementById('contactFirst')?.value.trim();
+      const last    = document.getElementById('contactLast')?.value.trim();
+      const email   = document.getElementById('contactEmail')?.value.trim();
+      const message = document.getElementById('contactMessage')?.value.trim();
+
+      if (!first || !last || !email || !message) {
+        showToast('⚠️ Please fill in all required fields.', 'error');
+        return;
+      }
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        showToast('⚠️ Please enter a valid email address.', 'error');
+        return;
+      }
+
+      const provider = CONFIG.contact.provider;
+      const payload = {
+        name: `${first} ${last}`,
+        email,
+        phone: document.getElementById('contactPhone')?.value,
+        subject: document.getElementById('contactSubject')?.value,
+        message,
+      };
+
+      if (provider === 'demo') {
+        showToast('✉️ Message sent! We\'ll get back to you within 1–2 business days. (Demo mode)', 'success');
+        return;
+      }
+
+      if (provider === 'formspree') {
+        try {
+          const res = await fetch(CONFIG.contact.formspree.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (res.ok) showToast('✉️ Message sent successfully!', 'success');
+          else showToast('⚠️ Failed to send. Please try again.', 'error');
+        } catch { showToast('⚠️ Network error.', 'error'); }
+      }
+
+      if (provider === 'emailjs') {
+        // Assumes EmailJS SDK is loaded via script tag
+        try {
+          // await emailjs.send(CONFIG.contact.emailjs.serviceId, CONFIG.contact.emailjs.templateId, payload, CONFIG.contact.emailjs.userId);
+          showToast('✉️ Message sent! (EmailJS — SDK required)', 'success');
+        } catch { showToast('⚠️ EmailJS error.', 'error'); }
+      }
+
+      if (provider === 'custom') {
+        try {
+          const res = await fetch(CONFIG.contact.custom.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...CONFIG.contact.custom.headers },
+            body: JSON.stringify(payload),
+          });
+          if (res.ok) showToast('✉️ Message sent!', 'success');
+          else showToast('⚠️ Server error. Please try again.', 'error');
+        } catch { showToast('⚠️ Connection error.', 'error'); }
+      }
+    }
+
+    /* ============================================================
+       PRAYER WALL
+    ============================================================ */
+    function submitPrayerRequest() {
+      const name = document.getElementById('prayerName')?.value.trim();
+      const request = document.getElementById('prayerRequest')?.value.trim();
+      const isPublic = document.getElementById('prayerPublic')?.checked;
+
+      if (!request) {
+        showToast('⚠️ Please enter your prayer request.', 'error');
+        return;
+      }
+
+      if (isPublic) {
+        const wall = document.getElementById('prayerWall');
+        const card = document.createElement('div');
+        card.className = 'prayer-card';
+        const now = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+        card.innerHTML = `
+          <p class="prayer-card__text">"${request}"</p>
+          <div class="prayer-card__meta">— ${name || 'Anonymous'} · ${now} · <span style="color:var(--crimson-soft);">🙏 1 praying</span></div>
+        `;
+        wall.insertBefore(card, wall.firstChild);
+      }
+
+      showToast('🙏 Prayer request submitted. The elders will pray for you.', 'success');
+      if (document.getElementById('prayerName')) document.getElementById('prayerName').value = '';
+      if (document.getElementById('prayerRequest')) document.getElementById('prayerRequest').value = '';
+    }
+
+    /* ============================================================
+       TOAST NOTIFICATIONS
+    ============================================================ */
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type === 'success' ? 'success' : type === 'error' ? 'error' : ''}`;
+
+      const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+      toast.innerHTML = `
+        <span class="toast__icon">${icons[type] || 'ℹ️'}</span>
+        <span class="toast__text">${message}</span>
+        <button class="toast__close" onclick="this.parentElement.remove()">✕</button>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
+    }
+
+    /* ============================================================
+       FADE-IN ON SCROLL (INTERSECTION OBSERVER)
+    ============================================================ */
+    function initFadeObserver() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    }
+
+    // Re-run observer when changing pages
+    const originalShowPage = showPage;
+
+    /* ============================================================
+       GIVE AMOUNT SELECTION (INLINE)
+    ============================================================ */
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('give-amount-btn')) {
+        const amount = e.target.dataset.amount || e.target.textContent.replace('$','');
+        const parent = e.target.closest('.give-amounts');
+        parent.querySelectorAll('.give-amount-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        // Show custom input if "Custom"
+        const nextEl = parent.nextElementSibling;
+        if (nextEl && (nextEl.id === 'customAmountWrap' || nextEl.id === 'customAmountWrap2')) {
+          nextEl.style.display = e.target.textContent === 'Custom' ? 'block' : 'none';
+        }
+      }
+    });
+
+    /* ============================================================
+       KEYBOARD ACCESSIBILITY
+    ============================================================ */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeGiveModal();
+        closeMobileMenu();
+      }
+    });
+
+    /* ============================================================
+       GOOGLE MAPS INITIALIZER (called when API key is set)
+    ============================================================ */
+    function initMap() {
+      if (!CONFIG.maps.apiKey || CONFIG.maps.apiKey === 'YOUR_GOOGLE_MAPS_API_KEY') return;
+      const mapContainers = document.querySelectorAll('.map-container');
+      mapContainers.forEach(container => {
+        container.innerHTML = '';
+        const map = new google.maps.Map(container, {
+          center: { lat: CONFIG.maps.lat, lng: CONFIG.maps.lng },
+          zoom: CONFIG.maps.zoom,
+          styles: [{ featureType:'all', stylers:[{ saturation:-80 }] }],
+        });
+        new google.maps.Marker({
+          position: { lat: CONFIG.maps.lat, lng: CONFIG.maps.lng },
+          map,
+          title: CONFIG.church.name,
+        });
+      });
+    }
+
+    /* ============================================================
+       GOOGLE ANALYTICS INITIALIZER
+    ============================================================ */
+    function initAnalytics() {
+      if (!CONFIG.analytics.googleAnalyticsId || CONFIG.analytics.googleAnalyticsId.includes('YOUR')) return;
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${CONFIG.analytics.googleAnalyticsId}`;
+      document.head.appendChild(script);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', CONFIG.analytics.googleAnalyticsId);
+    }
+
+    // Initialize analytics on load
+    initAnalytics();
+  </script>
+</body>
+</html>
